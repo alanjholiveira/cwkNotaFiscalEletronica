@@ -41,8 +41,5 @@ namespace cwkNotaFiscalEletronica.Interfaces
         string DiretorioPadrao { get; }
         string PinNfe { get; }
         bool GMailAutenticacao { get; }
-        string CIdToken { get; }
-        string Csc { get; }
-        int QrCode { get; }
     }
 }

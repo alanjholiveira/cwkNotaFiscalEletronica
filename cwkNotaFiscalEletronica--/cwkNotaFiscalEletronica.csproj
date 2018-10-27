@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>cwkNotaFiscalEletronica</RootNamespace>
     <AssemblyName>cwkNotaFiscalEletronica</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +30,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -52,7 +50,6 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <RegisterForComInterop>false</RegisterForComInterop>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -67,26 +64,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DFe.Classes">
-      <HintPath>..\Dependencias\DFe.Classes.dll</HintPath>
-    </Reference>
-    <Reference Include="DFe.Utils">
-      <HintPath>..\Dependencias\DFe.Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport">
-      <HintPath>..\Dependencias\FastReport.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.Bars, Version=2018.3.13.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencias\FastReport.Bars.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.Editor, Version=2018.3.13.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencias\FastReport.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Interop.AccessibilityCplAdminLib">
       <HintPath>..\Dependencias\Interop.AccessibilityCplAdminLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -98,27 +77,6 @@
     <Reference Include="Interop.Shell32">
       <HintPath>..\Dependencias\Interop.Shell32.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="NFe.Classes">
-      <HintPath>..\Dependencias\NFe.Classes.dll</HintPath>
-    </Reference>
-    <Reference Include="NFe.Danfe.Base">
-      <HintPath>..\Dependencias\NFe.Danfe.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="NFe.Danfe.Fast">
-      <HintPath>..\Dependencias\NFe.Danfe.Fast.dll</HintPath>
-    </Reference>
-    <Reference Include="NFe.Danfe.Nativo">
-      <HintPath>..\Dependencias\NFe.Danfe.Nativo.dll</HintPath>
-    </Reference>
-    <Reference Include="NFe.Servicos">
-      <HintPath>..\Dependencias\NFe.Servicos.dll</HintPath>
-    </Reference>
-    <Reference Include="NFe.Utils">
-      <HintPath>..\Dependencias\NFe.Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="NFe.Wsdl">
-      <HintPath>..\Dependencias\NFe.Wsdl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -133,49 +91,42 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tecnospeed\FactoryIspdNFeXDPEC.cs" />
-    <Compile Include="Tecnospeed\ManagerEDoc.cs" />
+    <Compile Include="FactoryIspdNFeXDPEC.cs" />
+    <Compile Include="ManagerEDoc.cs" />
     <Compile Include="Modelo\ConfiguracaoManager.cs" />
     <Compile Include="Modelo\retConsReciNFe_v3.10.designer.cs" />
-    <Compile Include="Tecnospeed\NotaFiscalEletronica60.cs" />
-    <Compile Include="Tecnospeed\NotaFiscalEletronicaConsumidor50a.cs" />
-    <Compile Include="Tecnospeed\NotaFiscalEletronica50a.cs" />
+    <Compile Include="NotaFiscalEletronica60.cs" />
+    <Compile Include="NotaFiscalEletronicaConsumidor50a.cs" />
+    <Compile Include="NotaFiscalEletronica50a.cs" />
     <Compile Include="Erro.cs" />
     <Compile Include="Erros\NFeException.cs" />
     <Compile Include="Erros\SemRespostaDoServidorException.cs" />
     <Compile Include="Erros\ServidorOfflineException.cs" />
     <Compile Include="Erros\XmlMalFormatadoException.cs" />
-    <Compile Include="Tecnospeed\FactoryIspdNFeX.cs" />
+    <Compile Include="FactoryIspdNFeX.cs" />
     <Compile Include="Funcoes.cs" />
     <Compile Include="Interfaces\Cliente.cs" />
     <Compile Include="Interfaces\AdicaoNotaItem.cs" />
     <Compile Include="Interfaces\EnderecoEntrega.cs" />
     <Compile Include="Interfaces\NotaParcela.cs" />
-    <Compile Include="Tecnospeed\INotaFiscalEletronica.cs" />
-    <Compile Include="Tecnospeed\NfeDataSetXFiller.cs" />
-    <Compile Include="Tecnospeed\NotaFiscalEletronica30.cs" />
+    <Compile Include="INotaFiscalEletronica.cs" />
+    <Compile Include="NfeDataSetXFiller.cs" />
+    <Compile Include="NotaFiscalEletronica30.cs" />
     <Compile Include="Interfaces\Empresa.cs" />
     <Compile Include="Interfaces\Nota.cs" />
     <Compile Include="Interfaces\NotaItem.cs" />
-    <Compile Include="Tecnospeed\NotaFiscalEletronica40.cs" />
-    <Compile Include="Tecnospeed\NotaFiscalEletronicaConsumidor60.cs" />
+    <Compile Include="NotaFiscalEletronica40.cs" />
+    <Compile Include="NotaFiscalEletronicaConsumidor60.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagsXMLNFe.cs" />
     <Compile Include="Type.cs" />
-    <Compile Include="Zeus\ConfiguracaoApp.cs" />
-    <Compile Include="Zeus\ConfiguracaoCsc.cs" />
-    <Compile Include="Zeus\INotaFiscalEletronicaZeus.cs" />
-    <Compile Include="Zeus\NFeFacade.cs" />
-    <Compile Include="Zeus\NotaFiscalEletronicaConsumidorZeus60.cs" />
-    <Compile Include="Zeus\NotaFiscalEletronicaZeus60.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XMLFile2.xml">

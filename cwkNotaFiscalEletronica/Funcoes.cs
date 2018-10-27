@@ -5,6 +5,11 @@ using System.Text;
 using System.Xml.Linq;
 using System.IO;
 using System.Net;
+using DFe.Utils;
+using cwkNotaFiscalEletronica.Interfaces;
+using DFe.Classes.Entidades;
+using DFe.Classes.Flags;
+using NFe.Utils;
 
 namespace cwkNotaFiscalEletronica
 {
@@ -214,6 +219,235 @@ namespace cwkNotaFiscalEletronica
 
             return arq_ret.ToString();
         }
+
+
+        ///Zeus Automação
+        ///
+        /// <summary>
+        /// Metodo resposavel por retorna UF da empresa por Zeus
+        /// </summary>
+        /// <param name="uf"></param>
+        /// <returns></returns>
+        public static Estado RetornaUF(string uf)
+        {
+            //instancia a variável para o padrão de ES
+            Estado ufEmpresa = Estado.ES;
+
+            switch (uf)
+            {
+                case "AC":
+                    ufEmpresa = Estado.AC;
+                    break;
+                case "AL":
+                    ufEmpresa = Estado.AL;
+                    break;
+                case "AM":
+                    ufEmpresa = Estado.AM;
+                    break;
+                case "AN":
+                    ufEmpresa = Estado.AN;
+                    break;
+                case "AP":
+                    ufEmpresa = Estado.AP;
+                    break;
+                case "BA":
+                    ufEmpresa = Estado.BA;
+                    break;
+                case "CE":
+                    ufEmpresa = Estado.CE;
+                    break;
+                case "DF":
+                    ufEmpresa = Estado.DF;
+                    break;
+                case "ES":
+                    ufEmpresa = Estado.ES;
+                    break;
+                case "EX":
+                    ufEmpresa = Estado.EX;
+                    break;
+                case "GO":
+                    ufEmpresa = Estado.GO;
+                    break;
+                case "MA":
+                    ufEmpresa = Estado.MA;
+                    break;
+                case "MG":
+                    ufEmpresa = Estado.MG;
+                    break;
+                case "MS":
+                    ufEmpresa = Estado.MS;
+                    break;
+                case "MT":
+                    ufEmpresa = Estado.MT;
+                    break;
+                case "PA":
+                    ufEmpresa = Estado.PA;
+                    break;
+                case "PB":
+                    ufEmpresa = Estado.PB;
+                    break;
+                case "PE":
+                    ufEmpresa = Estado.PE;
+                    break;
+                case "PI":
+                    ufEmpresa = Estado.PI;
+                    break;
+                case "PR":
+                    ufEmpresa = Estado.PR;
+                    break;
+                case "RJ":
+                    ufEmpresa = Estado.RJ;
+                    break;
+                case "RN":
+                    ufEmpresa = Estado.RN;
+                    break;
+                case "RO":
+                    ufEmpresa = Estado.RO;
+                    break;
+                case "RR":
+                    ufEmpresa = Estado.RR;
+                    break;
+                case "RS":
+                    ufEmpresa = Estado.RS;
+                    break;
+                case "SC":
+                    ufEmpresa = Estado.SC;
+                    break;
+                case "SE":
+                    ufEmpresa = Estado.SE;
+                    break;
+                case "SP":
+                    ufEmpresa = Estado.SP;
+                    break;
+                case "TO":
+                    ufEmpresa = Estado.TO;
+                    break;
+                default:
+                    ufEmpresa = Estado.ES;
+                    break;
+            }
+
+            return ufEmpresa;
+        }
+
+        public static TipoAmbiente RetornaTipoAmbiente(int tpAmb)
+        {
+            TipoAmbiente ambiente = TipoAmbiente.Homologacao;
+
+            switch (tpAmb)
+            {
+                case 1:
+                    ambiente = TipoAmbiente.Producao;
+                    break;
+                case 2:
+                    ambiente = TipoAmbiente.Homologacao;
+                    break;
+            }
+
+            return ambiente;
+
+        }
+
+        public static NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao RetornarTipoEmissao(string tpEmis)
+        {
+            NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
+
+            switch (tpEmis)
+            {
+                case "1":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
+                    break;
+                case "2":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teFSIA;
+                    break;
+                case "3":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teSCAN;
+                    break;
+                case "4":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teEPEC;
+                    break;
+                case "5":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teFSDA;
+                    break;
+                case "6":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teSVCAN;
+                    break;
+                case "7":
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teSVCRS;
+                    break;
+                default:
+                    emissao = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao.teNormal;
+                    break;
+            }
+
+            return emissao;
+        }
+
+        /// <summary>
+        /// Retorna Certifiicado ZEUS
+        /// </summary>
+        /// <param name="TipoCert"></param>
+        /// <param name="Empresa"></param>
+        /// <returns></returns>
+        public static ConfiguracaoCertificado RetornaCertificado(string TipoCert, IEmpresa Empresa)
+        {
+            ConfiguracaoCertificado ConfgCertificado;
+
+            #region Seleciona Tipo de Certificado
+            switch (TipoCert)
+            {
+
+                case "A1Arquivo":
+                    ConfgCertificado = new ConfiguracaoCertificado
+                    {
+                        TipoCertificado = TipoCertificado.A1Arquivo,
+                        Arquivo = Empresa.Certificado,
+                        Senha = Empresa.PinNfe
+                    };
+                    break;
+                case "A1Repositorio":
+                    ConfgCertificado = new ConfiguracaoCertificado
+                    {
+                        TipoCertificado = TipoCertificado.A1Repositorio,
+                        Serial = Empresa.Certificado
+                    };
+                    break;
+                case "A3":
+                    ConfgCertificado = new ConfiguracaoCertificado
+                    {
+                        TipoCertificado = TipoCertificado.A3,
+                        Serial = Empresa.Certificado,
+                        Senha = Empresa.PinNfe
+                    };
+                    break;
+                default:
+                    ConfgCertificado = new ConfiguracaoCertificado
+                    {
+                        TipoCertificado = TipoCertificado.A1Repositorio,
+                        Serial = Empresa.Certificado,
+                    };
+                    break;
+            }
+            #endregion
+
+            return ConfgCertificado;
+        }
+
+        public static VersaoQrCode RetornaVersaoQrCode(int versao)
+        {
+            switch (versao)
+            {
+                case 1:
+                    return VersaoQrCode.QrCodeVersao1;
+                case 2:
+                    return VersaoQrCode.QrCodeVersao2;
+                default:
+                    return VersaoQrCode.QrCodeVersao1;
+
+            }
+        }
+
+
 
     }
 }
