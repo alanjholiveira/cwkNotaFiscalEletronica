@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="cwkNotaFiscalEletronica.Erro" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Erro.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.FactoryIspdNFeX" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAACAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FactoryIspdNFeX.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.Funcoes" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAAAAAAAAAAAAAAAAAAACAAAAAAABAAAAgAAAAAA=</HashCode>
+      <FileName>Funcoes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.INotaFiscalEletronica" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBCAEAAAAYAAAAACBEAAEQAgEAAAAAAAAAAAAAAAMAg=</HashCode>
+      <FileName>INotaFiscalEletronica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.NotaFiscalEletronica30" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oACJEQAAIQAAIIACBAAAAQBgYEAAFABARAgIBAABtAI=</HashCode>
+      <FileName>NotaFiscalEletronica30.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.NotaFiscalEletronica40" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oACJEQAAIQAAIIACAAAAAQBgYEAAFABARAgIBAABtAI=</HashCode>
+      <FileName>NotaFiscalEletronica40.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.TagsXMLNFe" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TagsXMLNFe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.Erros.NFeException" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Erros\NFeException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.Erros.SemRespostaDoServidorException" Collapsed="true">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Erros\SemRespostaDoServidorException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.Erros.ServidorOfflineException" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Erros\ServidorOfflineException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cwkNotaFiscalEletronica.Erros.XmlMalFormatadoException" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Erros\XmlMalFormatadoException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="cwkNotaFiscalEletronica.Interfaces.ICliente" Collapsed="true">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAIAAAgCRAACAEAAAAgACAkAAAAABgAAAAAQCBEhQ=</HashCode>
+      <FileName>Interfaces\Cliente.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="cwkNotaFiscalEletronica.Interfaces.IEmpresa" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KAAIIAAAgAFAACCAAAAAgACAAAgAAAAiAEAAIAEBEBQ=</HashCode>
+      <FileName>Interfaces\Empresa.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="cwkNotaFiscalEletronica.Interfaces.INota" Collapsed="true">
+    <Position X="11.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABDCQCAmOQhBwCBgBAqhEIAKDQAgnwQAVAEiAIAlIQ0=</HashCode>
+      <FileName>Interfaces\Nota.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="cwkNotaFiscalEletronica.Interfaces.INotaItem" Collapsed="true">
+    <Position X="7.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYAAKYQFARUQBAAgELABEIQEBiEKZKQgRgCQKUQEoAE=</HashCode>
+      <FileName>Interfaces\NotaItem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="cwkNotaFiscalEletronica.Interfaces.INotaParcela" Collapsed="true">
+    <Position X="9.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAgEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\NotaParcela.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="cwkNotaFiscalEletronica.TipoRetorno" Collapsed="true">
+    <Position X="11.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.TipoNotaEntSaida" Collapsed="true">
+    <Position X="9.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.TipoST" Collapsed="true">
+    <Position X="9.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.Danfe" Collapsed="true">
+    <Position X="9.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.TipoEmissao" Collapsed="true">
+    <Position X="7.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAABAAAAAAAAAAAAAAIAAAAAAAAAAAIAgA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.cwkAmbiente" Collapsed="true">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.TipoRetornoDoEnvio" Collapsed="true">
+    <Position X="7.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAgQAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.VersaoXML" Collapsed="true">
+    <Position X="11.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="cwkNotaFiscalEletronica.EmpresaCRT" Collapsed="true">
+    <Position X="11.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAIAAAAAAAAACAAAAA=</HashCode>
+      <FileName>Type.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
