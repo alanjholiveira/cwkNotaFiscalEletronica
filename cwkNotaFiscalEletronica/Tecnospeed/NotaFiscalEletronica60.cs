@@ -42,13 +42,13 @@ namespace cwkNotaFiscalEletronica
             
             switch (FormaEmissao)
             {
-                case TipoEmissao.Normal:
+                case TipoEmissao.teNormal:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moNormal;
                     break;
-                case TipoEmissao.SVCAN:
+                case TipoEmissao.teSVCAN:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moSVCAN;
                     break;
-                case TipoEmissao.SVCRS:
+                case TipoEmissao.teSVCRS:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moSVCRS;
                     break;
             }
@@ -171,7 +171,7 @@ namespace cwkNotaFiscalEletronica
             SpdNFeDataSetX.SetCampo(("procEmi_B26=0")); //Identificador do Processo de emissão (0-Emissão da Nfe com Aplicativo do Contribuinte). Ver outras opções no manual da Receita.
             SpdNFeDataSetX.SetCampo(("verProc_B27=000")); //Versão do Aplicativo Emissor
 
-            if (FormaEmissao == TipoEmissao.DPEC || NotaStatusAnterior == "8")
+            if (FormaEmissao == TipoEmissao.teEPEC || NotaStatusAnterior == "8")
             {
                 SpdNFeDataSetX.SetCampo(("dhCont_B28=" + Nota.Empresa.ContingenciaDataHora.ToString("yyyy-MM-dd\"T\"HH:mm:sszzz"))); //Data e Hora ("AAAA-MM-DDTHH:MM:SSzzz") da entrada em contingencia
                 SpdNFeDataSetX.SetCampo(("xJust_B29=" + Nota.Empresa.ContingenciaJustificativa)); //Motivo da entrada em contingencia
@@ -184,7 +184,7 @@ namespace cwkNotaFiscalEletronica
             SpdNFeDataSetX.SetCampo(("UFSaidaPais_ZA02=" + Nota.ZA02_UFEmbarq)); //nome ad tag alterado de UFEmbarq para UFSaidaPais
             SpdNFeDataSetX.SetCampo(("xLocExporta_ZA03=" + Nota.ZA03_xLocEmbarq)); //nome ad tag alterado de xLocEmbarq para xLocExporta
 
-            if (finalidadeNFe == FinalidadeNFe.DevolucaoRetorno)
+            if (finalidadeNFe == FinalidadeNFe.fnDevolucao)
                 GerarNotaReferenciada(Nota.NotaReferenciada);
         }
 
@@ -860,12 +860,24 @@ namespace cwkNotaFiscalEletronica
             }
             switch (ano)
             {
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2015: return "0.00"; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2016: return "40.00"; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2017: return "60.00"; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2018: return "80.00"; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2019: return "100.00"; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 default: return "100.00"; break; 
+#pragma warning restore CS0162 // Código inacessível detectado
             }
         }
 
@@ -976,7 +988,7 @@ namespace cwkNotaFiscalEletronica
             aXmlNota = GeraXmlNota().Trim();
             SalvarXmlArquivo(aXmlNota, "UltimoXmlGerado.xml");
 
-            if (FormaEmissao == TipoEmissao.DPEC)
+            if (FormaEmissao == TipoEmissao.teEPEC)
             {
                 String dataEnvio = Nota.DtEmissao.ToString("yyyy-MM-dd\"T\"HH:mm:ss");
                 String fusoEnvio = Nota.DtEmissao.ToString("zzz");
@@ -1100,7 +1112,7 @@ namespace cwkNotaFiscalEletronica
             IniciarDataSet();
 
             this.SpdNFeDataSetX.Incluir();
-            this.DadosNFe(FinalidadeNFe.Complementar);
+            this.DadosNFe(FinalidadeNFe.fnComplementar);
             if (Nota.NotaComplementada.Status != "2")
                 throw new Exception("Só é possível gerar nota complementar de notas autorizadas.");
 
@@ -1150,10 +1162,10 @@ namespace cwkNotaFiscalEletronica
 
                 if (BDevolucao)
                 {
-                    this.DadosNFe(FinalidadeNFe.DevolucaoRetorno);
+                    this.DadosNFe(FinalidadeNFe.fnDevolucao);
                 }
                 else
-                    this.DadosNFe(FinalidadeNFe.Normal);
+                    this.DadosNFe(FinalidadeNFe.fnNormal);
 
                 this.DadosEmitente();
                 this.DadosDestinatario();
@@ -1228,10 +1240,10 @@ namespace cwkNotaFiscalEletronica
 
                 if (BDevolucao)
                 {
-                    this.DadosNFe(FinalidadeNFe.DevolucaoRetorno);
+                    this.DadosNFe(FinalidadeNFe.fnDevolucao);
                 }
                 else
-                    this.DadosNFe(FinalidadeNFe.Normal);
+                    this.DadosNFe(FinalidadeNFe.fnNormal);
 
 
                 this.DadosEmitente();
@@ -1341,7 +1353,9 @@ namespace cwkNotaFiscalEletronica
                     }
                 }
             }
+#pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
             catch (Exception e)
+#pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
             {
                 throw new XmlMalFormatadoException(retorno, "Ocorreram erros no processamento da nota.");
             }

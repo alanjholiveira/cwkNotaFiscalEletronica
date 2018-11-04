@@ -402,7 +402,7 @@ namespace cwkNotaFiscalEletronica
                     {
                         TipoCertificado = TipoCertificado.A1Arquivo,
                         Arquivo = Empresa.Certificado,
-                        Senha = Empresa.PinNfe
+                        Senha = Empresa.PinCert
                     };
                     break;
                 case "A1Repositorio":
@@ -417,7 +417,7 @@ namespace cwkNotaFiscalEletronica
                     {
                         TipoCertificado = TipoCertificado.A3,
                         Serial = Empresa.Certificado,
-                        Senha = Empresa.PinNfe
+                        Senha = Empresa.PinCert
                     };
                     break;
                 default:

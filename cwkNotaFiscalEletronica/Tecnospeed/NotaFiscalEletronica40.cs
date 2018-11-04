@@ -28,14 +28,14 @@ namespace cwkNotaFiscalEletronica
             SpdNFeX.UF = Empresa.UF;
             switch (FormaEmissao)
             {
-                case TipoEmissao.Normal:
+                case TipoEmissao.teNormal:
                     
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moNormal;
                     break;
-                case TipoEmissao.SVCAN:
+                case TipoEmissao.teSVCAN:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moSVCAN;
                     break;
-                case TipoEmissao.SVCRS:
+                case TipoEmissao.teSVCRS:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moSVCRS;
                     break;
             }
@@ -734,7 +734,7 @@ namespace cwkNotaFiscalEletronica
             IniciarDataSet();
 
             this.SpdNFeDataSetX.Incluir();
-            this.DadosNFe(FinalidadeNFe.Complementar);
+            this.DadosNFe(FinalidadeNFe.fnComplementar);
             if (Nota.NotaComplementada.Status != "2")
                 throw new Exception("Só é possível gerar nota complementar de notas autorizadas.");
 
@@ -780,7 +780,7 @@ namespace cwkNotaFiscalEletronica
             {
                 this.SpdNFeDataSetX.Incluir();
 
-                this.DadosNFe(FinalidadeNFe.Normal);
+                this.DadosNFe(FinalidadeNFe.fnNormal);
                 this.DadosEmitente();
                 this.DadosDestinatario();
                 this.DadosEntrega();
@@ -816,7 +816,9 @@ namespace cwkNotaFiscalEletronica
         public override void GerarXmlPreDanfe()
         {
             string aXmlNota;
+#pragma warning disable CS0168 // A variável "_aux" está declarada, mas nunca é usada
             string _aux;
+#pragma warning restore CS0168 // A variável "_aux" está declarada, mas nunca é usada
 
             try
             {
@@ -824,7 +826,7 @@ namespace cwkNotaFiscalEletronica
 
                 this.SpdNFeDataSetX.Incluir();
 
-                this.DadosNFe(FinalidadeNFe.Normal);
+                this.DadosNFe(FinalidadeNFe.fnNormal);
                 this.DadosEmitente();
                 this.DadosDestinatario();
                 this.DadosEntrega();
@@ -930,7 +932,9 @@ namespace cwkNotaFiscalEletronica
                     }
                 }
             }
+#pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
             catch (Exception e)
+#pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
             {
                 throw new XmlMalFormatadoException(retorno, "Ocorreram erros no processamento da nota.");
             }

@@ -884,12 +884,24 @@ namespace cwkNotaFiscalEletronica
             }
             switch (ano)
             {
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2015: return 0.00m; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2016: return 40.00m; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2017: return 60.00m; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2018: return 80.00m; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 case 2019: return 100.00m; break;
+#pragma warning restore CS0162 // Código inacessível detectado
+#pragma warning disable CS0162 // Código inacessível detectado
                 default: return 100.00m; break;
+#pragma warning restore CS0162 // Código inacessível detectado
             }
         }
         #endregion
@@ -1209,7 +1221,9 @@ namespace cwkNotaFiscalEletronica
                     }
                 }
             }
+#pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
             catch (Exception e)
+#pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
             {
                 throw new XmlMalFormatadoException(retorno, "Ocorreram erros no processamento da nota.");
             }

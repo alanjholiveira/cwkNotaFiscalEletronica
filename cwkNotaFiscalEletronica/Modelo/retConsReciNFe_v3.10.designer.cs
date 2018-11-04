@@ -218,23 +218,39 @@ namespace cwkNotaFiscalEletronica
     public partial class TRetConsReciNFe : EntityBase<TRetConsReciNFe>
     {
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.verAplicField" nunca é usado
         private string verAplicField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.verAplicField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.nRecField" nunca é usado
         private string nRecField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.nRecField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.cStatField" nunca é usado
         private string cStatField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.cStatField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.xMotivoField" nunca é usado
         private string xMotivoField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.xMotivoField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.dhRecbtoField" nunca é usado
         private string dhRecbtoField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.dhRecbtoField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.cMsgField" nunca é usado
         private string cMsgField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.cMsgField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.xMsgField" nunca é usado
         private string xMsgField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.xMsgField" nunca é usado
 
         private List<TProtNFe> protNFeField;
 
+#pragma warning disable CS0169 // O campo "TRetConsReciNFe.versaoField" nunca é usado
         private string versaoField;
+#pragma warning restore CS0169 // O campo "TRetConsReciNFe.versaoField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public int tpAmb { get; set; }
@@ -424,7 +440,9 @@ namespace cwkNotaFiscalEletronica
 
 
 
+#pragma warning disable CS0169 // O campo "TProtNFe.versaoField" nunca é usado
         private string versaoField;
+#pragma warning restore CS0169 // O campo "TProtNFe.versaoField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public TProtNFeInfProt infProt { get; set; }
@@ -448,21 +466,37 @@ namespace cwkNotaFiscalEletronica
     public partial class TProtNFeInfProt : EntityBase<TProtNFeInfProt>
     {
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.verAplicField" nunca é usado
         private string verAplicField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.verAplicField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.chNFeField" nunca é usado
         private string chNFeField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.chNFeField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.dhRecbtoField" nunca é usado
         private string dhRecbtoField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.dhRecbtoField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.nProtField" nunca é usado
         private string nProtField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.nProtField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.digValField" nunca é usado
         private byte[] digValField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.digValField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.cStatField" nunca é usado
         private string cStatField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.cStatField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.xMotivoField" nunca é usado
         private string xMotivoField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.xMotivoField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "TProtNFeInfProt.idField" nunca é usado
         private string idField;
+#pragma warning restore CS0169 // O campo "TProtNFeInfProt.idField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public int tpAmb { get; set; }
@@ -535,7 +569,9 @@ namespace cwkNotaFiscalEletronica
 
         private X509DataType x509DataField;
 
+#pragma warning disable CS0169 // O campo "KeyInfoType.idField" nunca é usado
         private string idField;
+#pragma warning restore CS0169 // O campo "KeyInfoType.idField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public X509DataType X509Data { get; set; }
@@ -557,7 +593,9 @@ namespace cwkNotaFiscalEletronica
     public partial class SignatureValueType : EntityBase<SignatureValueType>
     {
 
+#pragma warning disable CS0169 // O campo "SignatureValueType.idField" nunca é usado
         private string idField;
+#pragma warning restore CS0169 // O campo "SignatureValueType.idField" nunca é usado
 
         private byte[] valueField;
 
@@ -639,11 +677,17 @@ namespace cwkNotaFiscalEletronica
 
         private byte[] digestValueField;
 
+#pragma warning disable CS0169 // O campo "ReferenceType.idField" nunca é usado
         private string idField;
+#pragma warning restore CS0169 // O campo "ReferenceType.idField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "ReferenceType.uRIField" nunca é usado
         private string uRIField;
+#pragma warning restore CS0169 // O campo "ReferenceType.uRIField" nunca é usado
 
+#pragma warning disable CS0169 // O campo "ReferenceType.typeField" nunca é usado
         private string typeField;
+#pragma warning restore CS0169 // O campo "ReferenceType.typeField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 1)]
         public ReferenceTypeDigestMethod DigestMethod { get; set; }
@@ -733,7 +777,9 @@ namespace cwkNotaFiscalEletronica
 
         private ReferenceType referenceField;
 
+#pragma warning disable CS0169 // O campo "SignedInfoType.idField" nunca é usado
         private string idField;
+#pragma warning restore CS0169 // O campo "SignedInfoType.idField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public SignedInfoTypeCanonicalizationMethod CanonicalizationMethod { get; set; }
@@ -825,7 +871,9 @@ namespace cwkNotaFiscalEletronica
 
         private KeyInfoType keyInfoField;
 
+#pragma warning disable CS0169 // O campo "SignatureType.idField" nunca é usado
         private string idField;
+#pragma warning restore CS0169 // O campo "SignatureType.idField" nunca é usado
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
         public SignedInfoType SignedInfo { get; set; }

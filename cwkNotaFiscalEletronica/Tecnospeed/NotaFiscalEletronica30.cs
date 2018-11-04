@@ -127,7 +127,7 @@ namespace cwkNotaFiscalEletronica
             SpdNFeDataSetX.SetCampo(("tpNF_B11=" + (Nota.TipoNota == TipoNotaEntSaida.Entrada ? 0 : 1).ToString())); //Tipo de Documento Fiscal (0-Entrada, 1-Saída)
             SpdNFeDataSetX.SetCampo(("cMunFG_B12=" + Nota.Empresa.CidadeIBGE)); //Código do Município, conforme Tabela do IBGE
             SpdNFeDataSetX.SetCampo(("tpImp_B21=" + ((int)Danfe).ToString())); //Tipo de Impressão da Danfe (1- Retrato , 2-Paisagem)
-            SpdNFeDataSetX.SetCampo(("tpEmis_B22=" + (FormaEmissao == TipoEmissao.Normal ? 1 : 2 ).ToString())); //Forma de Emissão da NFe (1-Normal, 2-Contigencia)
+            SpdNFeDataSetX.SetCampo(("tpEmis_B22=" + (FormaEmissao == TipoEmissao.teNormal ? 1 : 2 ).ToString())); //Forma de Emissão da NFe (1-Normal, 2-Contigencia)
             SpdNFeDataSetX.SetCampo(("cDV_B23= ")); //Calcula Automatico - Linha desnecessária já que o componente calcula o Dígito Verificador automaticamente e coloca no devido campo
             SpdNFeDataSetX.SetCampo(("tpAmb_B24=" + ((int)CwkAmbiente).ToString())); //Identificação do Ambiente (1- Producao, 2-Homologação)
             SpdNFeDataSetX.SetCampo(("finNFe_B25=1")); //Finalidade da NFe (1-Normal, 2-Complementar, 3-de Ajuste)

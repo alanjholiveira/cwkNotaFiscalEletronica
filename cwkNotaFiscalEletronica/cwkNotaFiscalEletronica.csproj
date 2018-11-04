@@ -140,6 +140,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INotaFiscalEletronica.cs" />
     <Compile Include="Tecnospeed\FactoryIspdNFeXDPEC.cs" />
     <Compile Include="Tecnospeed\ManagerEDoc.cs" />
     <Compile Include="Modelo\ConfiguracaoManager.cs" />

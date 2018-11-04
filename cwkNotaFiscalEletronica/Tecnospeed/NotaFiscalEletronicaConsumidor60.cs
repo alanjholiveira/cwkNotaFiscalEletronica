@@ -29,7 +29,9 @@ namespace cwkNotaFiscalEletronica
         private string GrupoManager { get; set; }
         private string UsuarioManager { get; set; }
         private string SenhaManager { get; set; }
+#pragma warning disable CS0108 // "NotaFiscalEletronicaConsumidor60.FormaEmissao" oculta o membro herdado "INotaFiscalEletronica.FormaEmissao". Use a nova palavra-chave se foi pretendido ocultar.
         private TipoEmissao FormaEmissao { get; set; }
+#pragma warning restore CS0108 // "NotaFiscalEletronicaConsumidor60.FormaEmissao" oculta o membro herdado "INotaFiscalEletronica.FormaEmissao". Use a nova palavra-chave se foi pretendido ocultar.
         #endregion
 
         public NotaFiscalEletronicaConsumidor60(TipoEmissao _tipoServidor, cwkAmbiente _ambiente, TipoDoCertificado _tipoCertificado, string _diretorioPadrao,
@@ -75,13 +77,13 @@ namespace cwkNotaFiscalEletronica
             SpdNFeX.UF = Empresa.UF;
             switch (FormaEmissao)
             {
-                case TipoEmissao.Normal:
+                case TipoEmissao.teNormal:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moNormal;
                     break;
-                case TipoEmissao.SVCAN:
+                case TipoEmissao.teSVCAN:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moSVCAN;
                     break;
-                case TipoEmissao.SVCRS:
+                case TipoEmissao.teSVCRS:
                     SpdNFeX.ModoOperacao = ModoOperacaoNFe.moSVCRS;
                     break;
                 default:
@@ -735,7 +737,7 @@ namespace cwkNotaFiscalEletronica
             string xmlRetornoEnvioLoteNFCe = String.Empty;
             string envioDaNota = String.Empty;
 
-            if (FormaEmissao == TipoEmissao.Normal)
+            if (FormaEmissao == TipoEmissao.teNormal)
             {
                 Dictionary<string, string> parm = new Dictionary<string, string>();
                 parm["Campos"] = "nrecibo, nprotenvio, impresso, xmldestinatario, xml, xmotivo, xmlcancdestinatario, dtcancelamento";
@@ -1017,10 +1019,10 @@ namespace cwkNotaFiscalEletronica
 
                 if (BDevolucao)
                 {
-                    this.DadosNFe(FinalidadeNFe.DevolucaoRetorno);
+                    this.DadosNFe(FinalidadeNFe.fnDevolucao);
                 }
                 else
-                    this.DadosNFe(FinalidadeNFe.Normal);
+                    this.DadosNFe(FinalidadeNFe.fnNormal);
 
                 this.DadosEmitente();
                 this.DadosDestinatario();
@@ -1040,7 +1042,7 @@ namespace cwkNotaFiscalEletronica
 
                 aXmlNota = SpdNFeDataSetX.LoteNFe;
 
-                if (FormaEmissao != TipoEmissao.Normal)
+                if (FormaEmissao != TipoEmissao.teNormal)
                 {
                     string xmlPrimeiraParte = aXmlNota.Substring(0, 49);
                     string xmlSegundaParte = aXmlNota.Substring(50);
@@ -1069,10 +1071,10 @@ namespace cwkNotaFiscalEletronica
 
                 if (BDevolucao)
                 {
-                    this.DadosNFe(FinalidadeNFe.DevolucaoRetorno);
+                    this.DadosNFe(FinalidadeNFe.fnDevolucao);
                 }
                 else
-                    this.DadosNFe(FinalidadeNFe.Normal);
+                    this.DadosNFe(FinalidadeNFe.fnNormal);
 
 
                 this.DadosEmitente();
@@ -1147,7 +1149,9 @@ namespace cwkNotaFiscalEletronica
                     }
                 }
             }
+#pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
             catch (Exception e)
+#pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
             {
                 throw new XmlMalFormatadoException(retorno, "Ocorreram erros no processamento da nota.");
             }
@@ -1277,7 +1281,9 @@ namespace cwkNotaFiscalEletronica
             throw new NotImplementedException();
         }
 
+#pragma warning disable CS0108 // "NotaFiscalEletronicaConsumidor60.InutilizarNfce(ConfiguracaoManager, string, string, string, string, string)" oculta o membro herdado "INotaFiscalEletronica.InutilizarNfce(ConfiguracaoManager, string, string, string, string, string)". Use a nova palavra-chave se foi pretendido ocultar.
         public static string InutilizarNfce(ConfiguracaoManager configManager, string _ano, string _serie, string _numeroInicio, string _numeroFim, string _justificativa)
+#pragma warning restore CS0108 // "NotaFiscalEletronicaConsumidor60.InutilizarNfce(ConfiguracaoManager, string, string, string, string, string)" oculta o membro herdado "INotaFiscalEletronica.InutilizarNfce(ConfiguracaoManager, string, string, string, string, string)". Use a nova palavra-chave se foi pretendido ocultar.
         {
             ManagerEDoc manager = new ManagerEDoc(configManager);
             string retornoInutilizar = manager.InutilizarNfce(_ano, _serie, _numeroInicio, _numeroFim, _justificativa);
