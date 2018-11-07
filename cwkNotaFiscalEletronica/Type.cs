@@ -48,40 +48,6 @@ namespace cwkNotaFiscalEletronica
     //    SVCAN = 6,
     //    SVCRS = 7
     //}
-    public enum TipoEmissao
-    {
-        [XmlEnum("1")]
-        [Description("Normal")]
-        teNormal = 1,
-
-        [XmlEnum("2")]
-        [Description("Contingência FS-IA")]
-        teFSIA = 2,
-
-        [XmlEnum("3")]
-        [Description("Contingência SCAN")]
-        teSCAN = 3,
-
-        [XmlEnum("4")]
-        [Description("Contingência DPEC")]
-        teEPEC = 4,
-
-        [XmlEnum("5")]
-        [Description("Contingência FS-DA")]
-        teFSDA = 5,
-
-        [XmlEnum("6")]
-        [Description("Contingência SVC-AN")]
-        teSVCAN = 6,
-
-        [XmlEnum("7")]
-        [Description("Contingência SVC-RS")]
-        teSVCRS = 7,
-
-        [XmlEnum("9")]
-        [Description("Contingência off-line")]
-        teOffLine = 9
-    }
 
     public enum cwkAmbiente
     {
@@ -97,8 +63,7 @@ namespace cwkNotaFiscalEletronica
         Aceito = 3
 
     }
-
-
+    
     public enum VersaoXML
     { 
         v3 = 0,
@@ -123,15 +88,7 @@ namespace cwkNotaFiscalEletronica
         ckActiveDirectory = 4
         
     }
-
-    public enum TipoDoCertificadoZeus
-    {
-        A1Repositorio = 0,
-        A1Arquivo = 1,
-        A3 = 2,
-        A1ByteArray = 3
-    }
-
+    
     //public enum FinalidadeNFe
     //{
     //    Normal = 1,
@@ -139,14 +96,7 @@ namespace cwkNotaFiscalEletronica
     //    Ajuste = 3,
     //    DevolucaoRetorno = 4 
     //}
-    public enum FinalidadeNFe
-    {
-        [XmlEnum("1")] fnNormal = 1,
-        [XmlEnum("2")] fnComplementar = 2,
-        [XmlEnum("3")] fnAjuste = 3,
-        [XmlEnum("4")] fnDevolucao = 4
-    }
-
+   
     public enum TipoOperacaoNota
     {
         OperacaoInterna = 1,

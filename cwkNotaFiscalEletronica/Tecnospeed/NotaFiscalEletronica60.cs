@@ -13,6 +13,7 @@ using cwkNotaFiscalEletronica.Erros;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
+using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace cwkNotaFiscalEletronica
 {

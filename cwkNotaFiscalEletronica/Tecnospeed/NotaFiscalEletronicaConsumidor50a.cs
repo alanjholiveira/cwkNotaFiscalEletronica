@@ -14,6 +14,7 @@ using System.Xml;
 using cwkNotaFiscalEletronica.Modelo;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
+using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace cwkNotaFiscalEletronica
 {

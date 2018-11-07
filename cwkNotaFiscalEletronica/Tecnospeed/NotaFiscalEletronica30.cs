@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
 using cwkNotaFiscalEletronica.Erros;
+using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace cwkNotaFiscalEletronica
 {

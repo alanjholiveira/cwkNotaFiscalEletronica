@@ -14,6 +14,7 @@ using System.Management;
 using cwkNotaFiscalEletronica.Modelo;
 using System.Net;
 using System.Net.Http;
+using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace cwkNotaFiscalEletronica
 {

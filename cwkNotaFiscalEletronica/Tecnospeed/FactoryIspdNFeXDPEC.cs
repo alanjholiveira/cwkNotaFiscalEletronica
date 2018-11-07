@@ -5,6 +5,7 @@ using System.Text;
 using NFeX;
 using System.Reflection;
 using System.IO;
+using NFe.Classes.Informacoes.Identificacao.Tipos;
 
 namespace cwkNotaFiscalEletronica
 {
