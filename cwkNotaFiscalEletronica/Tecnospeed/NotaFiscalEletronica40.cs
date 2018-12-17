@@ -1070,7 +1070,7 @@ namespace cwkNotaFiscalEletronica
                 return aXmlNota.DesmembrarXml();
         }
 
-        public override string InutilizarNFe(string _ano, string _serie, string _numeroInicio, string _numeroFim, string _justificativa)
+        public override string InutilizarNFe(string _ano, string _serie, string _numeroInicio, string _numeroFim, string _justificativa, string _cnpj = null)
         {
             List<string> retorno = new List<string>();
             string aXmlNota = "";

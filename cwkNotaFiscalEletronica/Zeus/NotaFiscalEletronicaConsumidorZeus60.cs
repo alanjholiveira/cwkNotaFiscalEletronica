@@ -34,7 +34,7 @@ using FinalidadeNFeZeus = NFe.Classes.Informacoes.Identificacao.Tipos.Finalidade
 
 namespace cwkNotaFiscalEletronica
 {
-    class NotaFiscalEletronicaConsumidorZeus60 : INotaFiscalEletronicaZeus
+    class NotaFiscalEletronicaConsumidorZeus60 : INotaFiscalEletronica
     {
         private string obs;
 
@@ -46,7 +46,7 @@ namespace cwkNotaFiscalEletronica
 
         //private TipoEmissao FormaEmissao { get; set; }
 
-        public NotaFiscalEletronicaConsumidorZeus60(TipoEmissaoZeus _tipoServidor, cwkAmbiente _ambiente, TipoCertificado _tipoCertificado, string _diretorioPadrao,
+        public NotaFiscalEletronicaConsumidorZeus60(TipoEmissaoZeus _tipoServidor, cwkAmbiente _ambiente, TipoDoCertificado _tipoCertificado, string _diretorioPadrao,
                                       Int16 indFinal, IndPres indPres, bool bDevolucao) : base(_tipoServidor, _ambiente, _tipoCertificado, _diretorioPadrao)
         {
             IndFinal = indFinal;
@@ -245,7 +245,14 @@ namespace cwkNotaFiscalEletronica
             dest.enderDest.cMun = Convert.ToInt64(Nota.PessoaCidadeIBGE); // Código do Município do Destinatário (Tabela IBGE)
             dest.enderDest.CEP = Funcoes.LimpaStr(Nota.PessoaCEP); // Cep do Destinatário
             dest.enderDest.fone = Convert.ToInt64(Funcoes.LimpaStr(Nota.PessoaTelefone)); // Fone do Destinatário
-            dest.email = Nota.PessoaEmail; // Email
+            if (Nota.PessoaEmail == "")
+            {
+                dest.email = "";
+            }
+            else
+            {
+                dest.email = Nota.PessoaEmail; // Email
+            }
 
             _nfe.infNFe.dest = dest;
         }
@@ -680,11 +687,11 @@ namespace cwkNotaFiscalEletronica
             var pisGeral = new PISGeral();
             if (aNotaItem.CST_Pis == "04" || aNotaItem.CST_Pis == "06" || aNotaItem.CST_Pis == "07" || aNotaItem.CST_Pis == "08" || aNotaItem.CST_Pis == "09")
             {
-                pisGeral.CST = (CSTPIS)Convert.ToInt64(aNotaItem.CST_Pis);
+                pisGeral.CST = Funcoes.RetornaCSTPIS(aNotaItem.CST_Pis);
             }
             else
             {
-                pisGeral.CST = (CSTPIS)Convert.ToInt64(aNotaItem.CST_Pis); // Codigo de Situacao Tributária - ver opções no Manual
+                pisGeral.CST = Funcoes.RetornaCSTPIS(aNotaItem.CST_Pis); // Codigo de Situacao Tributária - ver opções no Manual
                 pisGeral.vBC = aNotaItem.vBC_Q07; // Valor da Base de Cálculo do PIS
                 pisGeral.pPIS = aNotaItem.pPIS_Q08; // Alíquota em Percencual do PIS
                 pisGeral.vPIS = aNotaItem.vPIS_Q09; // Valor do PIS em Reais
@@ -697,11 +704,11 @@ namespace cwkNotaFiscalEletronica
             var cofinsGeral = new COFINSGeral();
             if (aNotaItem.CST_Pis == "04" || aNotaItem.CST_Pis == "06" || aNotaItem.CST_Pis == "07" || aNotaItem.CST_Pis == "08" || aNotaItem.CST_Pis == "09")
             {
-                cofinsGeral.CST = (CSTCOFINS)Convert.ToInt64(aNotaItem.CST_Cofins);
+                cofinsGeral.CST = Funcoes.RetornaCSTCOFINS(aNotaItem.CST_Cofins);
             }
             else
             {
-                cofinsGeral.CST = (CSTCOFINS)Convert.ToInt64(aNotaItem.CST_Cofins); // Código de Situacao Tributária - ver opções no Manual
+                cofinsGeral.CST = Funcoes.RetornaCSTCOFINS(aNotaItem.CST_Cofins); // Código de Situacao Tributária - ver opções no Manual
                 cofinsGeral.vBC = aNotaItem.vBC_S07; // Valor da Base de Cálculo do COFINS
                 cofinsGeral.pCOFINS = aNotaItem.pCOFINS_S08; // Alíquota do COFINS em Percentual
                 cofinsGeral.vCOFINS = aNotaItem.vCOFINS_S11; // Valor do COFINS em Reais

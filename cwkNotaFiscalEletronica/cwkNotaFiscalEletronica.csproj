@@ -140,7 +140,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INotaFiscalEletronica.cs" />
+    <Compile Include="Zeus\EmailBuilder.cs" />
     <Compile Include="Tecnospeed\FactoryIspdNFeXDPEC.cs" />
     <Compile Include="Tecnospeed\ManagerEDoc.cs" />
     <Compile Include="Modelo\ConfiguracaoManager.cs" />
@@ -159,7 +159,7 @@
     <Compile Include="Interfaces\AdicaoNotaItem.cs" />
     <Compile Include="Interfaces\EnderecoEntrega.cs" />
     <Compile Include="Interfaces\NotaParcela.cs" />
-    <Compile Include="Tecnospeed\INotaFiscalEletronica.cs" />
+    <Compile Include="INotaFiscalEletronica.cs" />
     <Compile Include="Tecnospeed\NfeDataSetXFiller.cs" />
     <Compile Include="Tecnospeed\NotaFiscalEletronica30.cs" />
     <Compile Include="Interfaces\Empresa.cs" />
@@ -173,7 +173,6 @@
     <Compile Include="Type.cs" />
     <Compile Include="Zeus\ConfiguracaoApp.cs" />
     <Compile Include="Zeus\ConfiguracaoCsc.cs" />
-    <Compile Include="Zeus\INotaFiscalEletronicaZeus.cs" />
     <Compile Include="Zeus\NFeFacade.cs" />
     <Compile Include="Zeus\NotaFiscalEletronicaConsumidorZeus60.cs" />
     <Compile Include="Zeus\NotaFiscalEletronicaZeus60.cs" />

@@ -34,11 +34,11 @@ using NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual.Tipos;
 using NFe.Classes.Informacoes.Cobranca;
 using TipoEmissaoZeus = NFe.Classes.Informacoes.Identificacao.Tipos.TipoEmissao;
 using FinalidadeNFeZeus = NFe.Classes.Informacoes.Identificacao.Tipos.FinalidadeNFe;
-
+using System.Windows.Forms;
 
 namespace cwkNotaFiscalEletronica
 {
-    class NotaFiscalEletronicaZeus60 : INotaFiscalEletronicaZeus
+    class NotaFiscalEletronicaZeus60 : INotaFiscalEletronica
     {
         private string obs;
         private Int16 IndFinal  { get; set; }
@@ -49,7 +49,7 @@ namespace cwkNotaFiscalEletronica
         private NFe.Classes.NFe _nfe;
 
 
-        public NotaFiscalEletronicaZeus60(TipoEmissaoZeus _tipoServidor, cwkAmbiente _ambiente, TipoCertificado _tipoCertificado, string _diretorioPadrao,
+        public NotaFiscalEletronicaZeus60(TipoEmissaoZeus _tipoServidor, cwkAmbiente _ambiente, TipoDoCertificado _tipoCertificado, string _diretorioPadrao,
                                        Int16 indFinal, IndPres indPres, bool bDevolucao) : base(_tipoServidor, _ambiente, _tipoCertificado, _diretorioPadrao) 
         { 
             IndFinal = indFinal; 
@@ -330,7 +330,14 @@ namespace cwkNotaFiscalEletronica
             dest.enderDest.cMun = Convert.ToInt64(Nota.PessoaCidadeIBGE); // Código do Município do Destinatário (Tabela IBGE)
             dest.enderDest.CEP = Funcoes.LimpaStr(Nota.PessoaCEP); // Cep do Destinatário
             dest.enderDest.fone = Convert.ToInt64( Funcoes.LimpaStr(Nota.PessoaTelefone) ); // Fone do Destinatário
-            dest.email = Nota.PessoaEmail; // Email
+            if (Nota.PessoaEmail == "")
+            {
+                dest.email = "";
+            }
+            else
+            {
+                dest.email = Nota.PessoaEmail; // Email
+            }
 
             _nfe.infNFe.dest = dest;
         }
@@ -770,7 +777,7 @@ namespace cwkNotaFiscalEletronica
             {                
                 ipi.cEnq = Convert.ToInt32(aNotaItem.cEnq_O06);
 
-                ipiGeral.CST = (CSTIPI) Convert.ToInt64(aNotaItem.CST_Ipi);
+                ipiGeral.CST = Funcoes.RetornaCSTIPI(aNotaItem.CST_Ipi);
                 ipiGeral.vBC = aNotaItem.vBC_O10;
                 ipiGeral.qUnid = null;
                 ipiGeral.vUnid = null;
@@ -781,7 +788,7 @@ namespace cwkNotaFiscalEletronica
             {
                 ipi.cEnq = Convert.ToInt32(aNotaItem.cEnq_O06);
                 
-                ipiGeral.CST = (CSTIPI) Convert.ToInt64(aNotaItem.CST_Ipi);
+                ipiGeral.CST = Funcoes.RetornaCSTIPI(aNotaItem.CST_Ipi);
             }
             ipi.TipoIPI = ipiGeral.ObterIPIBasico();
             det.imposto.IPI = ipi;
@@ -791,11 +798,11 @@ namespace cwkNotaFiscalEletronica
             var pisGeral = new PISGeral();
             if (aNotaItem.CST_Pis == "04" || aNotaItem.CST_Pis == "06" || aNotaItem.CST_Pis == "07" || aNotaItem.CST_Pis == "08" || aNotaItem.CST_Pis == "09")
             {  
-                pisGeral.CST = (CSTPIS) Convert.ToInt64(aNotaItem.CST_Pis);
+                pisGeral.CST = Funcoes.RetornaCSTPIS(aNotaItem.CST_Pis);
             }
             else
             {
-                pisGeral.CST = (CSTPIS)Convert.ToInt64(aNotaItem.CST_Pis); // Codigo de Situacao Tributária - ver opções no Manual
+                pisGeral.CST = Funcoes.RetornaCSTPIS(aNotaItem.CST_Pis); // Codigo de Situacao Tributária - ver opções no Manual
                 pisGeral.vBC = aNotaItem.vBC_Q07; // Valor da Base de Cálculo do PIS
                 pisGeral.pPIS = aNotaItem.pPIS_Q08; // Alíquota em Percencual do PIS
                 pisGeral.vPIS = aNotaItem.vPIS_Q09; // Valor do PIS em Reais
@@ -808,11 +815,11 @@ namespace cwkNotaFiscalEletronica
             var cofinsGeral = new COFINSGeral();
             if (aNotaItem.CST_Pis == "04" || aNotaItem.CST_Pis == "06" || aNotaItem.CST_Pis == "07" || aNotaItem.CST_Pis == "08" || aNotaItem.CST_Pis == "09")
             {
-                cofinsGeral.CST = (CSTCOFINS) Convert.ToInt64(aNotaItem.CST_Cofins);
+                cofinsGeral.CST = Funcoes.RetornaCSTCOFINS(aNotaItem.CST_Cofins);
             }
             else
             {                
-                cofinsGeral.CST = (CSTCOFINS)Convert.ToInt64(aNotaItem.CST_Cofins); // Código de Situacao Tributária - ver opções no Manual
+                cofinsGeral.CST = Funcoes.RetornaCSTCOFINS(aNotaItem.CST_Cofins); // Código de Situacao Tributária - ver opções no Manual
                 cofinsGeral.vBC = aNotaItem.vBC_S07; // Valor da Base de Cálculo do COFINS
                 cofinsGeral.pCOFINS = aNotaItem.pCOFINS_S08; // Alíquota do COFINS em Percentual
                 cofinsGeral.vCOFINS = aNotaItem.vCOFINS_S11; // Valor do COFINS em Reais
@@ -1515,9 +1522,8 @@ namespace cwkNotaFiscalEletronica
                     Nota.Status = "2";
                     Nota.LogRecibo = Nota.Numero + "-pro-rec.xml";
                     //Nota.XmlLogRecNFe = Funcoes.AbrirArquivo(this._cfgServico().DiretorioSalvarXml + "\\" + Nota.LogRecibo).Replace("UTF-8", "UTF-16"); ;
-                    Nota.XmlLogRecNFe = xml;
-                    //Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(this.MontaConfiguracoesDFe().DiretorioSalvarXml + "\\" + Nota.ChaveNota + "-nfe.xml").Replace("UTF-8", "UTF-16");
-                    Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(DiretorioXML + "\\NFe_Autorizada\\" + this.MesAno + "\\" + Nota.ChaveNota + "-procNfe.xml").Replace("UTF-8", "UTF-16");                    
+                    Nota.XmlLogRecNFe = xml;                  
+                    Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(DiretorioXML + "\\" + Nota.ChaveNota + "-nfe.xml").Replace("UTF-8", "UTF-16");                    
                     Nota.bImpressa = true;
                 }
                 else
@@ -1538,9 +1544,9 @@ namespace cwkNotaFiscalEletronica
                     }
                 }
             }
-#pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
+            #pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
             catch (Exception e)
-#pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
+            #pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
             {
                 
                 throw new XmlMalFormatadoException(retorno, "Ocorreram erros no processamento da nota.");
@@ -1686,17 +1692,18 @@ namespace cwkNotaFiscalEletronica
  
             NFeFacade facade = new NFeFacade();
             aXmlNota = facade.ConsultarReciboDeEnvio(Nota.NumeroRecibo, _configuracoes.CfgServico).RetornoCompletoStr;
-
+                        
             if (aXmlNota == null || aXmlNota == "")
                 throw new SemRespostaDoServidorException(null, "Não houve resposta do servidor no recebimento do recibo.");
-
+            
             Nota.UltimoXmlRecebido = aXmlNota;
 
             Nota.NumeroProtocolo = String.Empty;
 
             if (String.IsNullOrEmpty(Nota.NumeroProtocolo))
-                return AtribuiRetornoRecibo(aXmlNota);
-            else
+            //    //return AtribuiRetornoRecibo(aXmlNota);
+                AtribuiRetornoRecibo(aXmlNota);
+            //else
                 return aXmlNota.DesmembrarXml();
         }
         #endregion

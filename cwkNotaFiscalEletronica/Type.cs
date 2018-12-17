@@ -69,7 +69,8 @@ namespace cwkNotaFiscalEletronica
         v3 = 0,
         v4 = 1,
         v5a = 2,
-        v6 = 3
+        v6 = 3,
+        v6a = 4
     }
 
     public enum EmpresaCRT

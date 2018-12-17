@@ -10,6 +10,7 @@ using cwkNotaFiscalEletronica.Interfaces;
 using DFe.Classes.Entidades;
 using DFe.Classes.Flags;
 using NFe.Utils;
+using NFe.Classes.Informacoes.Detalhe.Tributacao.Federal.Tipos;
 
 namespace cwkNotaFiscalEletronica
 {
@@ -447,7 +448,192 @@ namespace cwkNotaFiscalEletronica
             }
         }
 
+        public static CSTIPI RetornaCSTIPI(string CST)
+        {
+            switch (CST)
+            {
+                case "00":
+                    return CSTIPI.ipi00;
+                case "49":
+                    return CSTIPI.ipi49;
+                case "50":
+                    return CSTIPI.ipi50;
+                case "99":
+                    return CSTIPI.ipi99;
+                case "01":
+                    return CSTIPI.ipi01;
+                case "02":
+                    return CSTIPI.ipi02;
+                case "03":
+                    return CSTIPI.ipi03;
+                case "04":
+                    return CSTIPI.ipi04;
+                case "05":
+                    return CSTIPI.ipi05;
+                case "51":
+                    return CSTIPI.ipi51;
+                case "52":
+                    return CSTIPI.ipi52;
+                case "53":
+                    return CSTIPI.ipi53;
+                case "54":
+                    return CSTIPI.ipi54;
+                case "55":
+                    return CSTIPI.ipi55;
+                default:
+                    return CSTIPI.ipi99;
+            }
+        }
 
+        public static CSTPIS RetornaCSTPIS(string CST)
+        {
+            switch (CST)
+            {
+                case "01":
+                    return CSTPIS.pis01;
+                case "02":
+                    return CSTPIS.pis02;
+                case "03":
+                    return CSTPIS.pis03;
+                case "04":
+                    return CSTPIS.pis04;
+                case "05":
+                    return CSTPIS.pis05;
+                case "06":
+                    return CSTPIS.pis06;
+                case "07":
+                    return CSTPIS.pis07;
+                case "08":
+                    return CSTPIS.pis08;
+                case "09":
+                    return CSTPIS.pis09;
+                case "49":
+                    return CSTPIS.pis49;
+                case "50":
+                    return CSTPIS.pis50;
+                case "51":
+                    return CSTPIS.pis51;
+                case "52":
+                    return CSTPIS.pis52;
+                case "53":
+                    return CSTPIS.pis53;
+                case "54":
+                    return CSTPIS.pis54;
+                case "55":
+                    return CSTPIS.pis55;
+                case "56":
+                    return CSTPIS.pis56;
+                case "60":
+                    return CSTPIS.pis60;
+                case "61":
+                    return CSTPIS.pis61;
+                case "62":
+                    return CSTPIS.pis62;
+                case "63":
+                    return CSTPIS.pis63;
+                case "64":
+                    return CSTPIS.pis64;
+                case "65":
+                    return CSTPIS.pis65;
+                case "66":
+                    return CSTPIS.pis66;
+                case "67":
+                    return CSTPIS.pis67;
+                case "70":
+                    return CSTPIS.pis70;
+                case "71":
+                    return CSTPIS.pis71;
+                case "72":
+                    return CSTPIS.pis72;
+                case "73":
+                    return CSTPIS.pis73;
+                case "74":
+                    return CSTPIS.pis74;
+                case "75":
+                    return CSTPIS.pis75;
+                case "98":
+                    return CSTPIS.pis98;
+                case "99":
+                    return CSTPIS.pis99;
+                default:
+                    return CSTPIS.pis99;
+            }
+        }
+
+        public static CSTCOFINS RetornaCSTCOFINS(string CST)
+        {
+            switch (CST)
+            {
+                case "01":
+                    return CSTCOFINS.cofins01;
+                case "02":
+                    return CSTCOFINS.cofins02;
+                case "03":
+                    return CSTCOFINS.cofins03;
+                case "04":
+                    return CSTCOFINS.cofins04;
+                case "05":
+                    return CSTCOFINS.cofins05;
+                case "06":
+                    return CSTCOFINS.cofins06;
+                case "07":
+                    return CSTCOFINS.cofins07;
+                case "08":
+                    return CSTCOFINS.cofins08;
+                case "09":
+                    return CSTCOFINS.cofins09;
+                case "49":
+                    return CSTCOFINS.cofins49;
+                case "50":
+                    return CSTCOFINS.cofins50;
+                case "51":
+                    return CSTCOFINS.cofins51;
+                case "52":
+                    return CSTCOFINS.cofins52;
+                case "53":
+                    return CSTCOFINS.cofins53;
+                case "54":
+                    return CSTCOFINS.cofins54;
+                case "55":
+                    return CSTCOFINS.cofins55;
+                case "56":
+                    return CSTCOFINS.cofins56;
+                case "60":
+                    return CSTCOFINS.cofins60;
+                case "61":
+                    return CSTCOFINS.cofins61;
+                case "62":
+                    return CSTCOFINS.cofins62;
+                case "63":
+                    return CSTCOFINS.cofins63;
+                case "64":
+                    return CSTCOFINS.cofins64;
+                case "65":
+                    return CSTCOFINS.cofins65;
+                case "66":
+                    return CSTCOFINS.cofins66;
+                case "67":
+                    return CSTCOFINS.cofins67;
+                case "70":
+                    return CSTCOFINS.cofins70;
+                case "71":
+                    return CSTCOFINS.cofins71;
+                case "72":
+                    return CSTCOFINS.cofins72;
+                case "73":
+                    return CSTCOFINS.cofins73;
+                case "74":
+                    return CSTCOFINS.cofins74;
+                case "75":
+                    return CSTCOFINS.cofins75;
+                case "98":
+                    return CSTCOFINS.cofins98;
+                case "99":
+                    return CSTCOFINS.cofins99;
+                default:
+                    return CSTCOFINS.cofins99;
+            }
+        }
 
     }
 }
