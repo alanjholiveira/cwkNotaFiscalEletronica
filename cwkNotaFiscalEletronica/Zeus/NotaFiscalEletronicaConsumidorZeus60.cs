@@ -245,13 +245,14 @@ namespace cwkNotaFiscalEletronica
             dest.enderDest.cMun = Convert.ToInt64(Nota.PessoaCidadeIBGE); // Código do Município do Destinatário (Tabela IBGE)
             dest.enderDest.CEP = Funcoes.LimpaStr(Nota.PessoaCEP); // Cep do Destinatário
             dest.enderDest.fone = Convert.ToInt64(Funcoes.LimpaStr(Nota.PessoaTelefone)); // Fone do Destinatário
-            if (Nota.PessoaEmail == "")
+
+            if (Nota.PessoaEmail != "")
             {
-                dest.email = "";
+                dest.email = Nota.PessoaEmail; // Email
             }
             else
             {
-                dest.email = Nota.PessoaEmail; // Email
+                dest.email = "naoinformado@naoinformado.com";
             }
 
             _nfe.infNFe.dest = dest;
