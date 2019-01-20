@@ -151,14 +151,15 @@ namespace cwkNotaFiscalEletronica
         private void DadosNFe(FinalidadeNFeZeus finalidadeNFe)
         {            
             _nfe = new NFe.Classes.NFe();
-
+            
             var infNFe = new infNFe();
-            infNFe.Id = "NFe"; //Calcula Automático. Essa linha é desnecessária 
+            //infNFe.Id = "NFe"; //Calcula Automático. Essa linha é desnecessária 
             infNFe.versao = "4.00"; //Versão do Layout que está utilizando
 
             infNFe.ide = new ide();
             infNFe.ide.cUF = (Estado) Convert.ToInt64(Nota.Empresa.UFIBGE); //Codigo da UF para o estado de SP (Emitente da NFe)
             infNFe.ide.cNF = Nota.Id.ToString().PadLeft(9, '0'); //Código Interno do Sistema que está integrando com a NFe
+            //infNFe.ide.cNF = Convert.ToDateTime(Nota.DtEmissao).ToString("hhmmss").PadLeft(9, '0'); //Código Interno do Sistema que está integrando com a NFe
             infNFe.ide.natOp = Nota.NotaItems.First().CFOPDescricao; //Descrição da(s) CFOP(s) envolvidas nessa NFe
             infNFe.ide.mod = (ModeloDocumento) Nota.ModeloDocto; //Código do Modelo de Documento Fiscal
             infNFe.ide.serie = Convert.ToInt32(Nota.Serie); //Série do Documento
@@ -893,8 +894,10 @@ namespace cwkNotaFiscalEletronica
         #region DadosCobrança
         private void DadosCobranca()
         {
-            var cobr = new cobr();
-            cobr.dup = new List<dup>();
+            var cobr = new cobr
+            {
+                dup = new List<dup>()
+            };
             foreach (INotaParcela parcela in Nota.NotaParcelas)
             {                          
 
@@ -1142,7 +1145,8 @@ namespace cwkNotaFiscalEletronica
         private IDictionary<string, string> GerarNotaNormal()
         {           
             IDictionary<string, string> retorno = new Dictionary<string, string>();
-            String aXmlNota = "";           
+            String aXmlNota = "";
+            String aXmlNotaEPEC = "";
             String envioDaNota = "";
             NotaStatusAnterior = Nota.Status;
             Nota.Status = Nota.Status != "8" ? "-1" : "8";
@@ -1150,9 +1154,10 @@ namespace cwkNotaFiscalEletronica
             if ((retorno = ValidaDadosNFe()).Count > 0)
             {
                 throw new Exception("Nota não é validada");
-            }  
-          
-            aXmlNota = new ServicosNFe(_configuracoes.CfgServico).NfeStatusServico().RetornoCompletoStr;          
+            }
+
+            aXmlNota = new ServicosNFe(_configuracoes.CfgServico).NfeStatusServico().RetornoCompletoStr;
+
             if ((retorno = VerificaStatusServico(aXmlNota)) != null)
             {
                 throw new ServidorOfflineException(null, "O servidor do serviço está offline.");
@@ -1167,9 +1172,13 @@ namespace cwkNotaFiscalEletronica
                 Nota.XmlLogEnvNFe = aXmlNota;
 
                 NFeFacade facade = new NFeFacade();
-                var nfe = new NFe.Classes.NFe().CarregarDeArquivoXml(aXmlNota);
-                aXmlNota = facade.EnviarEPEC(Nota.Id, 1, nfe, "4.00", _configuracoes.CfgServico).RetornoCompletoStr;              
-                
+                //var nfe = new NFe.Classes.NFe().CarregarDeArquivoXml(aXmlNota);
+                var nfe = new NFe.Classes.NFe().CarregarDeXmlString(aXmlNota);
+                //aXmlNota = facade.EnviarEPEC(Nota.Id, 1, nfe, "4.00", _configuracoes.CfgServico).RetornoCompletoStr;              
+                var EnviarEPEC = facade.EnviarEPEC(Nota.Id, 1, nfe, "4.00", _configuracoes.CfgServico);
+                aXmlNotaEPEC = EnviarEPEC.EnvioStr;
+                aXmlNota = EnviarEPEC.RetornoCompletoStr;
+
                 envioDaNota = aXmlNota;
 
                 Int32 cStat = RetornaCStat(aXmlNota);
@@ -1196,8 +1205,7 @@ namespace cwkNotaFiscalEletronica
 
                 Nota.NumeroRecibo = TrataRetornoEnvioNumeroRecibo(aXmlNota);
                 Nota.LogEnvio = _nfe.infNFe.ide.nNF + "-env-lot.xml";
-                Nota.XmlLogEnvNFe = retornoEnvio.EnvioStr;
-                //Nota.XmlLogEnvNFe = Funcoes.AbrirArquivo(this._cfgServico().DiretorioSalvarXml + "\\" + Nota.LogEnvio).Replace("UTF-8", "UTF-16"); ;
+                Nota.XmlLogEnvNFe = retornoEnvio.EnvioStr;                
             }
 
             return envioDaNota.DesmembrarXml();
@@ -1342,7 +1350,8 @@ namespace cwkNotaFiscalEletronica
         #region GeraXmlNota
         public override string GeraXmlNota()
         {
-            string aXmlNota;          
+            string aXmlNota = "";
+            _nfe = null;
 
             try
             { 
@@ -1370,10 +1379,9 @@ namespace cwkNotaFiscalEletronica
 
                 _nfe.Assina(_configuracoes.CfgServico);                               
 
-                aXmlNota = _nfe.ObterXmlString();             
-              
-                Nota.ChaveNota = _nfe.infNFe.Id.Replace("NFe", "");
-
+                aXmlNota = _nfe.ObterXmlString();
+                
+                Nota.ChaveNota = _nfe.infNFe.Id.Substring(3); 
 
                 return aXmlNota;
             }
@@ -1418,18 +1426,18 @@ namespace cwkNotaFiscalEletronica
         #region GerarXmlPreDanfe
         public override void GerarXmlPreDanfe()
         {
-            string aXmlNota;
+            string aXmlNota = "";
 
             try
             {
-
+               
                 if (BDevolucao)
                 {
                     this.DadosNFe(FinalidadeNFeZeus.fnDevolucao);
                 }
                 else
                     this.DadosNFe(FinalidadeNFeZeus.fnNormal);
-
+                
                 this.DadosEmitente();
                 this.DadosDestinatario();
                 this.DadosEntrega();
@@ -1439,19 +1447,19 @@ namespace cwkNotaFiscalEletronica
                     seq += 1;
                     _nfe.infNFe.det.Add(this.DadosItem(objNotaItem));
                 }
-
+               
                 DadosCobranca();
                 InformacoesPagamento();
                 DadosTotalizadores(Nota.NotaItems, Nota.TotalProduto, Nota.TotalNota);
                 DadosTransporte();
-                
+            
 
                 _nfe.Assina(_configuracoes.CfgServico);                              
 
-                aXmlNota = _nfe.ObterXmlString();                
-
+                aXmlNota = _nfe.ObterXmlString();
+                
                 Nota.ChaveNota = _nfe.infNFe.Id.Replace("NFe", "");
-
+                
                 NFeFacade facade = new NFeFacade();
 
                 facade.VisualizarDanfe(aXmlNota);
@@ -1702,8 +1710,8 @@ namespace cwkNotaFiscalEletronica
             Nota.NumeroProtocolo = String.Empty;
 
             if (String.IsNullOrEmpty(Nota.NumeroProtocolo))
-            //    //return AtribuiRetornoRecibo(aXmlNota);
-                AtribuiRetornoRecibo(aXmlNota);
+                return AtribuiRetornoRecibo(aXmlNota);
+                //AtribuiRetornoRecibo(aXmlNota);
             //else
                 return aXmlNota.DesmembrarXml();
         }
@@ -1739,29 +1747,9 @@ namespace cwkNotaFiscalEletronica
             }
         }
         #endregion
+                
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private void EnviarCCe(string _chaveNFe, string _textoCce, string _dataHoraEvento, string _aOrgao, string _aIDLote, int aSequenciaEvento, string aFusoHorario)
-        //{           
-        //    NFeFacade facade = new NFeFacade();
-        //    facade.CartaCorrecao(Convert.ToInt32(_aIDLote), aSequenciaEvento, _chaveNFe, _textoCce, Funcoes.LimpaStr(Empresa.Cnpj), _cfgServico());
-
-        //}
-
-
-        // Implementação NFCe
+        // Implementação NFCe (e-Manager)
         public override IDictionary<string, string> ResolveNfce()
         {
             throw new NotImplementedException();

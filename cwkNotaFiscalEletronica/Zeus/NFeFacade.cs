@@ -27,8 +27,7 @@ namespace cwkNotaFiscalEletronica
 {
     public class NFeFacade
     {
-        readonly string SoftHouse = "Sages Soluções";
-        readonly string MesAno = DateTime.Now.ToString("yyyy-MM");
+        readonly string SoftHouse = "Cwork Sistemas";        
 
         #region Consultar Status Serviço
         /// <summary>
@@ -67,11 +66,11 @@ namespace cwkNotaFiscalEletronica
             }
             if(nfe.infNFe.ide.mod == ModeloDocumento.NFCe)
             { 
-                this.SalvarXmlArquivo(nfe.infNFe.Id.Substring(3) + "-nfce", nfe.ObterXmlString(), "NFCe_Enviada", cFgServico.tpAmb);
+                this.SalvarXmlArquivo(nfe.infNFe.Id.Substring(3) + "-nfce", nfe.ObterXmlString(), cFgServico.tpAmb);
             }
             else
             {
-                this.SalvarXmlArquivo(nfe.infNFe.Id.Substring(3) + "-nfe", nfe.ObterXmlString(), "NFe_Enviada", cFgServico.tpAmb);
+                this.SalvarXmlArquivo(nfe.infNFe.Id.Substring(3) + "-nfe", nfe.ObterXmlString(), cFgServico.tpAmb);
             }
             return retornoEnvio;
 
@@ -116,7 +115,7 @@ namespace cwkNotaFiscalEletronica
                 if (evento.retEvento.infEvento.cStat == 135 | evento.retEvento.infEvento.cStat == 155)
                 {
                     //Salva procEventoNFe
-                    this.SalvarXmlArquivo(evento.retEvento.infEvento.chNFe + "-canc", proceventoXmlString, "NFe_Cancelada", cFgServico.tpAmb);
+                    this.SalvarXmlArquivo(evento.retEvento.infEvento.chNFe + "-canc", proceventoXmlString, cFgServico.tpAmb);
                 }
             }
             
@@ -181,7 +180,7 @@ namespace cwkNotaFiscalEletronica
                 if (evento.retEvento.infEvento.cStat == 135)
                 {
                     //Salva procEventoNFe
-                    this.SalvarXmlArquivo(evento.retEvento.infEvento.chNFe + "-procEventoNFe", proceventoXmlString, "CCe_Autorizado", cFgServico.tpAmb);
+                    this.SalvarXmlArquivo(evento.retEvento.infEvento.chNFe + "-procEventoNFe", proceventoXmlString, cFgServico.tpAmb);
                 }
             }
 
@@ -211,7 +210,7 @@ namespace cwkNotaFiscalEletronica
                 if (evento.retEvento.infEvento.cStat == 135)
                 {
                     //Salva procEventoNFe
-                    this.SalvarXmlArquivo(evento.retEvento.infEvento.chNFe + "-epec", proceventoXmlString, "EPEC_Enviado", cFgServico.tpAmb);
+                    this.SalvarXmlArquivo(evento.retEvento.infEvento.chNFe + "-epec", proceventoXmlString, cFgServico.tpAmb);
                 }
             }
 
@@ -219,6 +218,14 @@ namespace cwkNotaFiscalEletronica
         }
         #endregion
 
+        #region ConsultarEpec
+        public RetornoNfeConsultaProtocolo ConsultarEPEC(string chave, ConfiguracaoServico cFgServico)
+        {
+            var servicoNFe = new ServicosNFe(cFgServico);
+            return servicoNFe.NfeConsultaProtocolo(chave);
+        }
+        #endregion
+        
         #region Visualizar Danfe NFE
         /// <summary>
         /// Responsavel Exibir Danfe
@@ -412,7 +419,7 @@ namespace cwkNotaFiscalEletronica
         /// <param name="conteudoXML"></param>
         /// <param name="pastaNFe"></param>
         /// <param name="tpAmb"></param>
-        public void SalvarXmlArquivo(string arquivoNome, string conteudoXML, string pastaNFe, TipoAmbiente tpAmb)
+        public void SalvarXmlArquivo(string arquivoNome, string conteudoXML, TipoAmbiente tpAmb)
         {
             //string caminho = System.Environment.CurrentDirectory;
             StreamWriter streamWriter;
@@ -421,11 +428,11 @@ namespace cwkNotaFiscalEletronica
 
             if (tpAmb == TipoAmbiente.Homologacao)
             {
-                di = Directory.CreateDirectory(Path.Combine("XmlDestinatarioHom", pastaNFe, MesAno + "\\"));
+                di = Directory.CreateDirectory(Path.Combine("XmlDestinatarioHom\\"));
             }
             else
             {
-                di = Directory.CreateDirectory(Path.Combine("XmlDestinatario", pastaNFe, MesAno + "\\"));
+                di = Directory.CreateDirectory(Path.Combine("XmlDestinatario\\"));
             }
 
             streamWriter = File.CreateText(di.FullName + arquivoNome + ".xml");
@@ -436,17 +443,17 @@ namespace cwkNotaFiscalEletronica
         #endregion
 
         #region Salvar Arquivo em PDF
-        public void SalvarPDFArquivo(string arquivoNome, string conteudoXML, string pastaNFe, TipoAmbiente tpAmb)
+        public void SalvarPDFArquivo(string arquivoNome, string conteudoXML, TipoAmbiente tpAmb)
         {
             DirectoryInfo di;
 
             if (tpAmb == TipoAmbiente.Homologacao)
             {
-                di = Directory.CreateDirectory(Path.Combine("XmlDestinatarioHom", pastaNFe, MesAno + "\\PDF\\"));
+                di = Directory.CreateDirectory(Path.Combine("pdfHom\\"));
             }
             else
             {
-                di = Directory.CreateDirectory(Path.Combine("XmlDestinatario", pastaNFe, MesAno + "\\PDF\\"));
+                di = Directory.CreateDirectory(Path.Combine("pdf\\"));
             }
 
             
@@ -502,14 +509,14 @@ namespace cwkNotaFiscalEletronica
                     if(nfe.infNFe.ide.mod == ModeloDocumento.NFCe)
                     {
                         //Função para salvar XML
-                        SalvarXmlArquivo(nfeproc.protNFe.infProt.chNFe + "-procNfce", nfeproc.ObterXmlString(), "NFCe_Autorizada", cFgServico.tpAmb);
+                        SalvarXmlArquivo(nfeproc.protNFe.infProt.chNFe + "-nfce", nfeproc.ObterXmlString(), cFgServico.tpAmb);
                     }
                     else
                     { 
                         //Função para salvar XML
-                        SalvarXmlArquivo(nfeproc.protNFe.infProt.chNFe + "-procNfe", nfeproc.ObterXmlString(), "NFe_Autorizada", cFgServico.tpAmb);
+                        SalvarXmlArquivo(nfeproc.protNFe.infProt.chNFe + "-nfe", nfeproc.ObterXmlString(), cFgServico.tpAmb);
                         //Função para salvar PDF
-                        SalvarPDFArquivo(nfeproc.protNFe.infProt.chNFe + "-nfe", nfeproc.ObterXmlString(), "NFe_Autorizada", cFgServico.tpAmb);
+                        SalvarPDFArquivo(nfeproc.protNFe.infProt.chNFe + "-nfe", nfeproc.ObterXmlString(), cFgServico.tpAmb);
                     }
                 }
                 

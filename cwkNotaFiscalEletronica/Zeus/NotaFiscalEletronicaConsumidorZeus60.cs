@@ -88,6 +88,7 @@ namespace cwkNotaFiscalEletronica
             infNFe.ide = new ide();
             infNFe.ide.cUF = (Estado)Convert.ToInt64(Nota.Empresa.UFIBGE); //Codigo da UF para o estado de SP (Emitente da NFe)
             infNFe.ide.cNF = Nota.Id.ToString().PadLeft(9, '0'); //Código Interno do Sistema que está integrando com a NFe
+            //infNFe.ide.cNF = Convert.ToDateTime(Nota.DtEmissao).ToString("hhmmss").PadLeft(9, '0'); //infNFe.ide.cNF = Convert.ToDateTime(Nota.DtEmissao).ToString("hhmmss").PadLeft(9, '0'); //Código Interno do Sistema que está integrando com a NFe
             infNFe.ide.natOp = Nota.NotaItems.First().CFOPDescricao; //Descrição da(s) CFOP(s) envolvidas nessa NFe
             infNFe.ide.mod = (ModeloDocumento)Nota.ModeloDocto; //Código do Modelo de Documento Fiscal
             infNFe.ide.serie = Convert.ToInt32(Nota.Serie); //Série do Documento
@@ -954,9 +955,7 @@ namespace cwkNotaFiscalEletronica
                 throw new Exception("Nota não é validada");
             }
 
-            aXmlNota = GeraXmlNota().Trim();
-
-            //aXmlNota = AlteraXMLParaNFCe(aXmlNota);
+            aXmlNota = GeraXmlNota().Trim();            
 
             SalvarXmlArquivo(aXmlNota, "UltimoXmlNFCeGerado.xml");
 
@@ -969,17 +968,7 @@ namespace cwkNotaFiscalEletronica
             Nota.NumeroRecibo = TrataRetornoEnvioNumeroRecibo(aXmlNota);
             Nota.LogEnvio = _nfe.infNFe.ide.nNF + "-env-lot.xml";
             Nota.XmlLogEnvNFe = retornoEnvio.EnvioStr;
-
-            //ManagerEDoc ManagerEdocNFCe = new ManagerEDoc(ConfigManager);
-            //aXmlNota = FormataXMLEdocPadraoGestao(aXmlNota);
-
-            //Nota.XmlLogEnvNFe = aXmlNota;
-
-            //string strDadosRetornoEnvio = ManagerEdocNFCe.EnviarNFCe(aXmlNota);
-
-            //string envioDaNota = TrataRetornoNFCe(retorno, ManagerEdocNFCe, strDadosRetornoEnvio);
-            //return envioDaNota.DesmembrarXml();
-
+            
             return envioDaNota.DesmembrarXml();
         }
         #endregion
@@ -1043,7 +1032,8 @@ namespace cwkNotaFiscalEletronica
         #region Gera XML Nota
         public override string GeraXmlNota()
         {
-            string aXmlNota;           
+            string aXmlNota = "";
+            _nfe = null;
 
             try
             {
@@ -1090,9 +1080,9 @@ namespace cwkNotaFiscalEletronica
                     aXmlNota = xmlPrimeiraParte + "9" + xmlSegundaParte;
                 }
 
-                Nota.ChaveNota = _nfe.infNFe.Id.Replace("NFe", "");
-            
-                
+                Nota.ChaveNota = _nfe.infNFe.Id.Substring(3);
+
+
                 return aXmlNota;
             }
             catch (Exception ex)
@@ -1105,7 +1095,8 @@ namespace cwkNotaFiscalEletronica
         #region Gerar XML Pre Danfe
         public override void GerarXmlPreDanfe()
         {
-            string aXmlNota;
+            string aXmlNota = "";
+            _nfe = null;
 
             try
             {
@@ -1317,11 +1308,7 @@ namespace cwkNotaFiscalEletronica
         }
         #endregion
 
-        public override string InutilizarNFe(string _ano, string _serie, string _numeroInicio, string _numeroFim, string _cnpj, string _justificativa)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Alterar Forma de Emissao
         public override string AlterarFormaDeEmissao()
         {            
 
@@ -1334,14 +1321,19 @@ namespace cwkNotaFiscalEletronica
             return FormaEmissao.ToString();
 
         }
+        #endregion
 
-
-
-
-
+        #region Metodo Usado pela Tecnospeed edoc Manage
+        public override string InutilizarNFe(string _ano, string _serie, string _numeroInicio, string _numeroFim, string _cnpj, string _justificativa)
+        {
+            throw new NotImplementedException();
+        }
+       
         public override IDictionary<string, string> ResolveNfce()
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

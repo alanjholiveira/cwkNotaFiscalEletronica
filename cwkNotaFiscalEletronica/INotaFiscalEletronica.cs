@@ -118,11 +118,13 @@ namespace cwkNotaFiscalEletronica
             return NotaFiscalEletronicaFactory(_versaoXml, _tipoServidor, _ambiente, _tipoCertificado, diretorioPadrao, indFinal, indPres, bDevolucao, modeloDocumento, componenteDfe, new ConfiguracaoManager());
         }
 
+        #region InutlizarNFce Componente Tecnospeed 
         public static string InutilizarNfce(ConfiguracaoManager _configManager, string _ano, string _serie, string _numeroInicio, string _numeroFim, string _justificativa)
         {
             string retorno = NotaFiscalEletronicaConsumidor50a.InutilizarNfce(_configManager, _ano, _serie, _numeroInicio, _numeroFim, _justificativa);
             return retorno;
         }
+        #endregion
 
         #region Nota Fiscal Factory NFe/NFCe
         public static INotaFiscalEletronica NotaFiscalEletronicaFactory(VersaoXML _versaoXml, TipoEmissao _tipoServidor, cwkAmbiente _ambiente, TipoDoCertificado _tipoCertificado
@@ -144,7 +146,7 @@ namespace cwkNotaFiscalEletronica
                         retorno = new NotaFiscalEletronica50a(_tipoServidor, _ambiente, _tipoCertificado, diretorioPadrao, indFinal, indPres, bDevolucao);
                         break;
                     case VersaoXML.v6:
-                        if (componenteDfe == 0)
+                        if (componenteDfe == 0) //0 = Tecnospeed / 1 = Zeus Automação
                         {
                             retorno = new NotaFiscalEletronica60(_tipoServidor, _ambiente, _tipoCertificado, diretorioPadrao, indFinal, indPres, bDevolucao);
                         }
@@ -167,7 +169,7 @@ namespace cwkNotaFiscalEletronica
                         retorno = new NotaFiscalEletronicaConsumidor50a(_tipoServidor, _ambiente, _tipoCertificado, diretorioPadrao, indFinal, indPres, bDevolucao, configManager);
                         break;
                     case VersaoXML.v6:
-                        if (componenteDfe == 0)
+                        if (componenteDfe == 0) //0 = Tecnospeed / 1 = Zeus Automação
                         {
                             retorno = new NotaFiscalEletronicaConsumidor60(_tipoServidor, _ambiente, _tipoCertificado, diretorioPadrao, indFinal, indPres, bDevolucao, configManager);
                         }
@@ -187,11 +189,13 @@ namespace cwkNotaFiscalEletronica
         }
         #endregion
 
+        #region Get Diretorio Sistema
         private static string GetDiretorioSistema()
         {
             string dir = Assembly.GetEntryAssembly().Location;
             return Path.Combine(Path.GetDirectoryName(dir), String.Empty);
         }
+        #endregion
 
         #region Retornar Certificado Tecnospeed
         public static string[] RetornaListaCertificados(TipoDoCertificado tipoCertificado)
@@ -276,16 +280,7 @@ namespace cwkNotaFiscalEletronica
             }
             
         }
-        #endregion
-
-        //Falta Implementar ZEUS
-        public void VisualizarEPEC()
-        {
-            string aXmlNota = Nota.XmlLogEnvNFe;
-            string dataHoraEpec = PegaDataHoraEPEC();
-            SpdNFeX.VisualizarEPEC(aXmlNota, Nota.NumeroProtocolo, dataHoraEpec, "Templates\\vm50a\\Danfe\\Retrato.rtm");
-            ExportarEPEC();
-        }
+        #endregion     
 
         #region ExportarDanfe
         public void ExportarDanfe(string pXmlNota, string pChaveNota)
@@ -302,6 +297,17 @@ namespace cwkNotaFiscalEletronica
             
         }
         #endregion
+
+        #region Recursos utilizado pela tecnospeed (Zeus ainda não possui)
+
+        //Falta Implementar ZEUS
+        public void VisualizarEPEC()
+        {
+            string aXmlNota = Nota.XmlLogEnvNFe;
+            string dataHoraEpec = PegaDataHoraEPEC();
+            SpdNFeX.VisualizarEPEC(aXmlNota, Nota.NumeroProtocolo, dataHoraEpec, "Templates\\vm50a\\Danfe\\Retrato.rtm");
+            ExportarEPEC();
+        }
 
         //Falta Implementar ZEUS
         public void ExportarEPEC()
@@ -326,6 +332,7 @@ namespace cwkNotaFiscalEletronica
 
             return SpdNFeX.ImprimirEPEC(aXmlNota, Nota.NumeroProtocolo, dataHoraEpec, "Templates\\vm50a\\Danfe\\Retrato.rtm", GetDefaultPrinter());
         }
+        #endregion
 
         #region Pega Data Hora EPEC
         private string PegaDataHoraEPEC()
@@ -391,7 +398,7 @@ namespace cwkNotaFiscalEletronica
         #region Enviar Danfe Email
         public void EnviarDanfeEmail(string _emailDestinatario, string _assunto, string _mensagem)
         {
-            if (Nota.Empresa.ComponenteDfe == 0)
+            if (Nota.Empresa.ComponenteDfe == 0) //0 = Tecnospeed / 1 = Zeus Automação
             {
                 string arquivo = "";
 
@@ -435,7 +442,7 @@ namespace cwkNotaFiscalEletronica
 
                 var emailBuilder = new EmailBuilder(ConfigEmail)
                         .AdicionarDestinatario(_emailDestinatario)
-                        .AdicionarAnexo(DiretorioXML + "\\" + Nota.ChaveNota + "-procNfe.xml")
+                        .AdicionarAnexo(DiretorioXML + "\\" + Nota.ChaveNota + "-nfe.xml")
                         .AdicionarAnexo(DiretorioPadrao + "\\pdf\\" + Nota.ChaveNota + "-nfe.pdf");
 
                 //emailBuilder.ErroAoEnviarEmail += erro => MessageBox.Show(erro.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -509,6 +516,7 @@ namespace cwkNotaFiscalEletronica
             return null;
         }
         #endregion
+        
 
         #region Formata String
         public string FormataTDEC_1204(object input)
