@@ -82,7 +82,7 @@ namespace cwkNotaFiscalEletronica
             _nfe = new NFe.Classes.NFe();
 
             var infNFe = new infNFe();
-            infNFe.Id = "NFe"; //Calcula Automático. Essa linha é desnecessária 
+            //infNFe.Id = "NFe"; //Calcula Automático. Essa linha é desnecessária 
             infNFe.versao = "4.00"; //Versão do Layout que está utilizando
 
             infNFe.ide = new ide();
@@ -99,11 +99,11 @@ namespace cwkNotaFiscalEletronica
             infNFe.ide.cMunFG = Convert.ToInt64(Nota.Empresa.CidadeIBGE); //Código do Município, conforme Tabela do IBGE
             infNFe.ide.tpImp = (TipoImpressao)((int)DanfeNFCe); //Tipo de Impressão da Danfe (4 - DANFE , 5 - msgEletronica)
             infNFe.ide.tpEmis = (TipoEmissaoZeus)((int)FormaEmissao); //Forma de Emissão da NFe (1 - Normal, 2 - FS, 3 - SCAN, 4 - DPEC, 5 - FS-DA, 6 - SVCAN, 7 - SVCRS);
-            infNFe.ide.cDV = 0; //Calcula Automatico - Linha desnecessária já que o componente calcula o Dígito Verificador automaticamente e coloca no devido campo
+            //infNFe.ide.cDV = 0; //Calcula Automatico - Linha desnecessária já que o componente calcula o Dígito Verificador automaticamente e coloca no devido campo
             infNFe.ide.tpAmb = (TipoAmbiente)CwkAmbiente; //Identificação do Ambiente (1- Producao, 2-Homologação)
             infNFe.ide.finNFe = (FinalidadeNFeZeus)((int)finalidadeNFe); //Finalidade da NFe (1-Normal, 2-Complementar, 3-de Ajuste, 4-Devolução)
             infNFe.ide.procEmi = 0; //Identificador do Processo de emissão (0-Emissão da Nfe com Aplicativo do Contribuinte). Ver outras opções no manual da Receita.
-            infNFe.ide.verProc = "1.00"; //Versão do Aplicativo Emissor
+            infNFe.ide.verProc = "0.00"; //Versão do Aplicativo Emissor
 
             //if (FormaEmissao == TipoEmissao.teSVCRS)
             if (_configuracoes.CfgServico.tpEmis == TipoEmissaoZeus.teSVCRS)
@@ -1200,7 +1200,7 @@ namespace cwkNotaFiscalEletronica
                     Nota.Status = "2";
                     Nota.LogRecibo = Nota.Numero + "-pro-rec.xml";
                     Nota.XmlLogRecNFe = xml;
-                    Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(DiretorioXML + "\\NFe_Autorizada\\" + Nota.ChaveNota + "-procNfe.xml").Replace("UTF-8", "UTF-16");
+                    Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(DiretorioXML + "\\" + Nota.ChaveNota + "-nfce.xml").Replace("UTF-8", "UTF-16");
                     Nota.bImpressa = true;
                 }
                 else

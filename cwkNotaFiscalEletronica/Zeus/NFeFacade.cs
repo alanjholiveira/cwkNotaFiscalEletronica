@@ -55,8 +55,8 @@ namespace cwkNotaFiscalEletronica
         {
             //nfe.Assina(cFgServico); //não precisa validar aqui, pois o lote será validado em ServicosNFe.NFeAutorizacao
             var servicoNFe = new ServicosNFe(cFgServico);
-            var retornoEnvio = servicoNFe.NFeAutorizacao(numLote, IndicadorSincronizacao.Assincrono, new List<Classes.NFe> { nfe }, true/*Envia a mensagem compactada para a SEFAZ*/);
-
+            var retornoEnvio = servicoNFe.NFeAutorizacao(numLote, IndicadorSincronizacao.Assincrono, new List<Classes.NFe> { nfe }, false/*Envia a mensagem compactada para a SEFAZ*/);
+                      
             var recibo = servicoNFe.NFeRetAutorizacao(retornoEnvio.Retorno.infRec.nRec);
             var cStat = this.VerificarcStat(recibo.RetornoCompletoStr, "protNFe", "infProt");
             if (cStat == "100")
@@ -85,7 +85,7 @@ namespace cwkNotaFiscalEletronica
         /// <returns></returns>
         public RetornoNFeRetAutorizacao ConsultarReciboDeEnvio(string recibo, ConfiguracaoServico cFgServico)
         {
-            var servicoNFe = new ServicosNFe(cFgServico);
+            var servicoNFe = new ServicosNFe(cFgServico);            
             return servicoNFe.NFeRetAutorizacao(recibo);
         }
         #endregion
@@ -544,13 +544,7 @@ namespace cwkNotaFiscalEletronica
         private string VerificarcStat(string aXmlRetorno, string NFeLocalName, string INFLocalName)
         {
             XDocument documentoXml = XDocument.Load(new StreamReader(new MemoryStream(ASCIIEncoding.UTF8.GetBytes(aXmlRetorno))));
-
-            //var noh = (from c in documentoXml.Root.Elements() where c.Name.LocalName == "protNFe" select c).Single<XElement>();
-            //noh = (from c in noh.Elements() where c.Name.LocalName == "infProt" select c).Single<XElement>();
-            //string cStat = (from c in noh.Elements() where c.Name.LocalName == "cStat" select c.Value).Single();
-            //string dStat = (from c in noh.Elements() where c.Name.LocalName == "xMotivo" select c.Value).Single();
-            //Console.WriteLine("retorno do recibo: " + cStat);
-
+                        
             XElement nohInf = (from c in documentoXml.Root.Elements() where c.Name.LocalName == NFeLocalName select c).Single();
             XElement noh = (from c in nohInf.Elements() where c.Name.LocalName == INFLocalName select c).Single();
             string valorCStat = (from c in noh.Elements() where c.Name.LocalName == "cStat" select c.Value).Single();

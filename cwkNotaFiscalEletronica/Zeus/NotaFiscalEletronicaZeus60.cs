@@ -81,6 +81,7 @@ namespace cwkNotaFiscalEletronica
         }
         #endregion
 
+        #region Status Web Service
         private bool StatusWebService(string aXml, List<string> aListaRetorno)
         {
             if (VerificaCodigo(aXml, "107"))
@@ -94,6 +95,7 @@ namespace cwkNotaFiscalEletronica
                 return false;
             }
         }
+        #endregion
 
         #region VerificaCodigo
         private bool VerificaCodigo(string aXml, string aCodigo)
@@ -179,7 +181,7 @@ namespace cwkNotaFiscalEletronica
                infNFe.ide.tpEmis = TipoEmissaoZeus.teEPEC; //Forma de Emissão da NFe (1 - Normal, 2 - FS, 3 - SCAN, 4 - DPEC, 5 - FS-DA, 6 - SVCAN, 7 - SVCRS);
             }
 
-            infNFe.ide.cDV = 0; //Calcula Automatico - Linha desnecessária já que o componente calcula o Dígito Verificador automaticamente e coloca no devido campo
+            //infNFe.ide.cDV = 0; //Calcula Automatico - Linha desnecessária já que o componente calcula o Dígito Verificador automaticamente e coloca no devido campo
             //infNFe.ide.tpAmb = ((int)CwkAmbiente); //Identificação do Ambiente (1- Producao, 2-Homologação)
             //infNFe.ide.tpAmb = TipoAmbiente.Homologacao; //Identificação do Ambiente (1- Producao, 2-Homologação)
             infNFe.ide.tpAmb = (TipoAmbiente)CwkAmbiente; //Identificação do Ambiente (1- Producao, 2-Homologação)
@@ -850,7 +852,7 @@ namespace cwkNotaFiscalEletronica
         }
         #endregion
 
-        #region METODO A SER IMPLEMENTADO
+        #region METODO A SER IMPLEMENTADO Não utilizado no Zeus
         // Rastreabilidade de produto * Informar apenas quando se tratar de produto a ser rastreado posteriormente
         private void IncluirRastreabilidadeProduto()
         {
@@ -1148,16 +1150,17 @@ namespace cwkNotaFiscalEletronica
             String aXmlNota = "";
             String aXmlNotaEPEC = "";
             String envioDaNota = "";
-            NotaStatusAnterior = Nota.Status;
-            Nota.Status = Nota.Status != "8" ? "-1" : "8";
+            NotaStatusAnterior = Nota.Status;            
 
+            Nota.Status = Nota.Status != "8" ? "-1" : "8";
+           
             if ((retorno = ValidaDadosNFe()).Count > 0)
             {
                 throw new Exception("Nota não é validada");
             }
 
             aXmlNota = new ServicosNFe(_configuracoes.CfgServico).NfeStatusServico().RetornoCompletoStr;
-
+            
             if ((retorno = VerificaStatusServico(aXmlNota)) != null)
             {
                 throw new ServidorOfflineException(null, "O servidor do serviço está offline.");
@@ -1171,8 +1174,7 @@ namespace cwkNotaFiscalEletronica
 
                 Nota.XmlLogEnvNFe = aXmlNota;
 
-                NFeFacade facade = new NFeFacade();
-                //var nfe = new NFe.Classes.NFe().CarregarDeArquivoXml(aXmlNota);
+                NFeFacade facade = new NFeFacade();                
                 var nfe = new NFe.Classes.NFe().CarregarDeXmlString(aXmlNota);
                 //aXmlNota = facade.EnviarEPEC(Nota.Id, 1, nfe, "4.00", _configuracoes.CfgServico).RetornoCompletoStr;              
                 var EnviarEPEC = facade.EnviarEPEC(Nota.Id, 1, nfe, "4.00", _configuracoes.CfgServico);
@@ -1199,13 +1201,15 @@ namespace cwkNotaFiscalEletronica
                 NFeFacade facade = new NFeFacade();
                 var retornoEnvio = facade.EnviarNFe(Nota.Numero, _nfe, _configuracoes.CfgServico);
 
-                aXmlNota = retornoEnvio.RetornoCompletoStr;
+                aXmlNota = retornoEnvio.RetornoCompletoStr;                
                 
-                envioDaNota = aXmlNota;                
-
+                envioDaNota = aXmlNota; 
+               
+                //Nota.NumeroRecibo = retornoEnvio.Retorno.infRec.nRec;
                 Nota.NumeroRecibo = TrataRetornoEnvioNumeroRecibo(aXmlNota);
                 Nota.LogEnvio = _nfe.infNFe.ide.nNF + "-env-lot.xml";
-                Nota.XmlLogEnvNFe = retornoEnvio.EnvioStr;                
+                Nota.XmlLogEnvNFe = retornoEnvio.EnvioStr;
+                
             }
 
             return envioDaNota.DesmembrarXml();
@@ -1214,7 +1218,7 @@ namespace cwkNotaFiscalEletronica
 
         #region RetornarCStat
         public Int32 RetornaCStat(string aXmlNota)
-        {
+        {            
             Int32 cStat = -1;
             int indiceEventoInfo = aXmlNota.IndexOf("<infEvento>");
             if (indiceEventoInfo != -1)
@@ -1225,7 +1229,7 @@ namespace cwkNotaFiscalEletronica
                 cStatString = new String(cStatString.Where(Char.IsDigit).ToArray());
 
                 Int32.TryParse(cStatString, out cStat);
-            }
+            }            
 
             return cStat;
         }
@@ -1339,10 +1343,10 @@ namespace cwkNotaFiscalEletronica
             xmlNota = nf.RetornoCompletoStr;
 
             Nota.NumeroRecibo = TrataRetornoEnvioNumeroRecibo(xmlNota);
+            //Nota.NumeroRecibo = nf.Retorno.infRec.nRec ;
             Nota.LogEnvio = nf.EnvioStr;
             Nota.XmlLogEnvNFe = nf.EnvioStr;
-            //Nota.XmlLogEnvNFe = Funcoes.AbrirArquivo(this._cfgServico().DiretorioSalvarXml + "\\" + Nota.LogEnvio).Replace("UTF-8", "UTF-16"); ;
-
+            
             return new Dictionary<string, string>();
         }
         #endregion
@@ -1377,7 +1381,9 @@ namespace cwkNotaFiscalEletronica
                 DadosTotalizadores(Nota.NotaItems, Nota.TotalProduto, Nota.TotalNota);
                 DadosTransporte();
 
-                _nfe.Assina(_configuracoes.CfgServico);                               
+                _nfe.Assina(_configuracoes.CfgServico);
+
+                _nfe.Valida(_configuracoes.CfgServico);
 
                 aXmlNota = _nfe.ObterXmlString();
                 
@@ -1388,6 +1394,8 @@ namespace cwkNotaFiscalEletronica
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+                //MessageBox.Show(ex.Message);
+                //throw;
             }
         }
         #endregion
@@ -1395,7 +1403,6 @@ namespace cwkNotaFiscalEletronica
         #region GerarNotaReferenciada
         public void GerarNotaReferenciada(INota notaReferenciada)
         {
-            //MessageBox.Show("Teste");
             //if (notaReferenciada == null)
             //    throw new Exception("Não foi possível encontrar a nota referenciada. Por favor verifique.");
 
@@ -1474,12 +1481,11 @@ namespace cwkNotaFiscalEletronica
 
         #region TrataRetornoEnvioNumeroRecibo
         private string TrataRetornoEnvioNumeroRecibo(string xml)
-        {
+        { 
             Nota.UltimoXmlRecebido = xml;
-            XDocument documentoXml = XDocument.Load(new StreamReader(new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xml))));
-
+            XDocument documentoXml = XDocument.Load(new StreamReader(new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xml))));            
             string statusRetorno = (from noh in documentoXml.Root.Elements() where noh.Name.LocalName == "cStat" select noh.Value).Single<string>();
-
+            
             if (statusRetorno != "103")
             {
                 IDictionary<string, string> retorno = new Dictionary<string, string>();
@@ -1487,7 +1493,7 @@ namespace cwkNotaFiscalEletronica
                 {
                     retorno.Add(item.Name.LocalName, item.Value);
                 }
-
+                
                 Nota.Status = "0";
                 string xMotivo = (from noh in documentoXml.Root.Elements() where noh.Name.LocalName == "xMotivo" select noh.Value).Single<string>();
                 //Nota.StatusMotivo = "Campo inconsistente: " + CapturaCampoErrado(xMotivo);
@@ -1521,7 +1527,7 @@ namespace cwkNotaFiscalEletronica
                 string cStat = (from c in noh.Elements() where c.Name.LocalName == "cStat" select c.Value).Single();
                 string dStat = (from c in noh.Elements() where c.Name.LocalName == "xMotivo" select c.Value).Single();
                 Console.WriteLine("retorno do recibo: " + cStat);
-                
+                                
                 if (cStat == "100")
                 {
                     Nota.NumeroProtocolo = (from c in noh.Elements() where c.Name.LocalName == "nProt" select c.Value).Single<string>();
@@ -1529,11 +1535,11 @@ namespace cwkNotaFiscalEletronica
                     Nota.NumeroProtocolo = Nota.NumeroProtocolo;
                     Nota.ModeloDocto = 55;
                     Nota.Status = "2";
-                    Nota.LogRecibo = Nota.Numero + "-pro-rec.xml";
-                    //Nota.XmlLogRecNFe = Funcoes.AbrirArquivo(this._cfgServico().DiretorioSalvarXml + "\\" + Nota.LogRecibo).Replace("UTF-8", "UTF-16"); ;
-                    Nota.XmlLogRecNFe = xml;                  
-                    Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(DiretorioXML + "\\" + Nota.ChaveNota + "-nfe.xml").Replace("UTF-8", "UTF-16");                    
+                    Nota.LogRecibo = Nota.Numero + "-pro-rec.xml";                    
+                    Nota.XmlLogRecNFe = xml;
+                    Nota.XmlDestinatarioNFe = Funcoes.AbrirArquivo(DiretorioXML + "\\" + Nota.ChaveNota + "-nfe.xml").Replace("UTF-8", "UTF-16");
                     Nota.bImpressa = true;
+                    
                 }
                 else
                 {
@@ -1566,6 +1572,7 @@ namespace cwkNotaFiscalEletronica
         }
         #endregion
 
+        #region Captura Campo Errado
         private string CapturaCampoErrado(string linha)
         {
             int ultimaAspa = linha.LastIndexOf('\'');
@@ -1574,6 +1581,7 @@ namespace cwkNotaFiscalEletronica
             return linha.Substring(penultimaAspa + 1, ultimaAspa - penultimaAspa);
 
         }
+        #endregion
 
         #region VerificaStatusServico
         private IDictionary<string, string> VerificaStatusServico(string xml)
@@ -1581,7 +1589,7 @@ namespace cwkNotaFiscalEletronica
             XDocument documentoXml = XDocument.Load(new StreamReader(new MemoryStream(ASCIIEncoding.UTF8.GetBytes(xml))));
             var noh = (from c in documentoXml.Root.Elements() where c.Name.LocalName == "cStat" select c).Single<XElement>();
             //var noh = (from c in documentoXml.Root.Elements() where c.Name.LocalName == "retConsStatServ" select c).Single<XElement>();
-
+            
             if (noh.Value == "107")
             {
                 /* string Mensagem = noh.Value;
@@ -1700,20 +1708,19 @@ namespace cwkNotaFiscalEletronica
             string aXmlNota = "";
  
             NFeFacade facade = new NFeFacade();
-            aXmlNota = facade.ConsultarReciboDeEnvio(Nota.NumeroRecibo, _configuracoes.CfgServico).RetornoCompletoStr;
+            aXmlNota = facade.ConsultarReciboDeEnvio(Nota.NumeroRecibo, _configuracoes.CfgServico).RetornoStr;            
                         
             if (aXmlNota == null || aXmlNota == "")
                 throw new SemRespostaDoServidorException(null, "Não houve resposta do servidor no recebimento do recibo.");
             
             Nota.UltimoXmlRecebido = aXmlNota;
 
-            Nota.NumeroProtocolo = String.Empty;
+            Nota.NumeroProtocolo = String.Empty;            
 
             if (String.IsNullOrEmpty(Nota.NumeroProtocolo))
-                return AtribuiRetornoRecibo(aXmlNota);
-                //AtribuiRetornoRecibo(aXmlNota);
-            //else
-                return aXmlNota.DesmembrarXml();
+                return AtribuiRetornoRecibo(aXmlNota);               
+            else
+                return aXmlNota.DesmembrarXml();            
         }
         #endregion
 
@@ -1728,8 +1735,7 @@ namespace cwkNotaFiscalEletronica
                 _cnpj = Funcoes.LimpaStr(Empresa.Cnpj);
             }
                         
-            NFeFacade facade = new NFeFacade();
-            //aXmlNota = facade.InutilizarNumeracao(Convert.ToInt32(_ano), Funcoes.LimpaStr(Empresa.Cnpj), _justificativa, Convert.ToInt32(_numeroInicio), Convert.ToInt32(_numeroFim), Convert.ToInt32(_serie), this.MontaConfiguracoesDFe()).RetornoCompletoStr;
+            NFeFacade facade = new NFeFacade();           
             aXmlNota = facade.InutilizarNumeracao(Convert.ToInt32(_ano), _cnpj, _justificativa, Convert.ToInt32(_numeroInicio), Convert.ToInt32(_numeroFim), Convert.ToInt32(_serie), _configuracoes.CfgServico).RetornoCompletoStr;
 
             XDocument documentoXml = XDocument.Load(new StreamReader(new MemoryStream(ASCIIEncoding.UTF8.GetBytes(aXmlNota))));
@@ -1747,9 +1753,9 @@ namespace cwkNotaFiscalEletronica
             }
         }
         #endregion
-                
 
-        // Implementação NFCe (e-Manager)
+        #region Implementação NFCe (eDoc-Manager)
+        // Implementação NFCe (eDoc-Manager)
         public override IDictionary<string, string> ResolveNfce()
         {
             throw new NotImplementedException();
@@ -1759,5 +1765,6 @@ namespace cwkNotaFiscalEletronica
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }
